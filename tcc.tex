@@ -1,0 +1,264 @@
+\documentclass[tcc,capa]{texufpel}
+
+\usepackage[utf8]{inputenc} % acentuacao
+\usepackage{graphicx} % para inserir figuras
+\usepackage[T1]{fontenc}
+
+\hypersetup{
+    hidelinks, % Remove coloração e caixas
+    unicode=true,   %Permite acentuação no bookmark
+    linktoc=all %Habilita link no nome e página do sumário
+}
+
+\unidade{Centro de Desenvolvimento Tecnológico}
+\curso{Engenharia de Computação}
+\nomecurso{Bacharelado em Engenharia de Computação}
+\titulocurso{Bacharel em Engenharia de Computação}
+
+\title{Proposta de exploração da plataforma Ethereum como base a aplicações em Fog Computing}
+
+\author{Santos}{Gustavo Fernandes dos}
+\advisor[Prof.~Dra.]{Reiser}{Renata Hax Sander}
+\coadvisor[Prof.~Dr.]{Pilla}{Maurício}
+%\collaborator[Prof.~Dr.]{Aguiar}{Marilton Sanchotene de}
+
+%Palavras-chave em PT_BR
+\keyword{palavrachave-um}
+\keyword{palavrachave-dois}
+\keyword{palavrachave-tres}
+\keyword{palavrachave-quatro}
+
+%Palavras-chave em EN_US
+\keywordeng{keyword-one}
+\keywordeng{keyword-two}
+\keywordeng{keyword-three}
+\keywordeng{keyword-four}
+
+\begin{document}
+
+\renewcommand{\advisorname}{Orientadora}           %descomente caso tenhas orientadora
+%\renewcommand{\coadvisorname}{Coorientadora}      %descomente caso tenhas coorientadora
+
+\newcommand{\bchain}{\textit{blockchain} }
+\newcommand{\Bchain}{\textit{Blockchain} }
+
+\maketitle 
+
+\sloppy
+
+\fichacatalografica
+
+\folhadeaprovacao
+
+%Opcional
+\begin{dedicatoria}
+  Dedico\ldots bla blabla blablabla bla. Bla blabla blablabla bla.\\
+  Bla blabla blablabla bla. Bla blabla blablabla bla.
+\end{dedicatoria}
+
+%Opcional
+\begin{agradecimentos}
+  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla
+  bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla
+  blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla
+  blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.
+  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla
+  bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla
+  blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla
+  blabla blablabla bla.  Bla blabla blablabla bla.
+\end{agradecimentos}
+
+%Opcional
+\begin{epigrafe}
+  Bla blabla blablabla bla.\\
+  Bla blabla blablabla bla.\\
+  Bla blabla blablabla bla.\\
+  Bla blabla blablabla bla.\\
+  Bla blabla blablabla bla.\\
+  {\sc --- Fulano de Tal}
+\end{epigrafe}
+
+%Resumo em Portugues (no maximo 500 palavras)
+\begin{abstract}
+  resumo
+\end{abstract}
+
+\begin{englishabstract}%
+  {Titulo do Trabalho em Ingles}
+  
+	abstract
+\end{englishabstract}
+
+%Lista de Figuras
+\listoffigures
+
+%Lista de Tabelas
+\listoftables
+
+%lista de abreviaturas e siglas
+\begin{listofabbrv}{SPMD}
+        \item[IOT] Internet of Things
+        \item[IPFS] Interplanetary File System
+\end{listofabbrv}
+
+%Sumario
+\tableofcontents
+
+\chapter{Introdução}
+
+\section{Organização da Monografia}
+
+% Como estruturar essa parte?
+% Falar sobre moedas virtuais?
+
+%=====================================================%
+
+\chapter{Revisão Bibliográfica}
+
+\section{Trabalhos Relacionados}
+
+
+\chapter{Revisão Técnica}
+
+\section{Blockchain}
+
+\Bchain vêm atraindo a atenção de pessoas em um ritmo crescente, em especial após o ápice do Bitcoin no final do ano de 2017...
+
+	\subsection{Arquitetura}
+    
+    A arquitetura da \bchain tem inicio pelo bloco primordial, chamado de \textit{genesis}. Os demais blocos que compõem uma \bchain consistem basicamente de duas partes: dados de transações e valor de hash. Dados de transações consistem em informações que os participantes inserem na \bchain e o valor de hash é uma referência ao bloco diretamente anterior ao bloco atual, é um dado gerado durante o processo de mineração.
+
+	%\subsection{Histórico}
+
+	\subsection{Obtenção do consenso}
+    
+    	\subsubsection{Prova de trabalho}
+        
+        \subsubsection{Prova de participação}
+        
+        \subsubsection{Prova de armazenamento}
+        
+        \subsubsection{Prova de existência}
+        
+        \subsubsection{...}
+        
+        % falar de outras provas de consenso?
+
+	\subsection{Estudo de caso: Bitcoin}
+    
+    	\subsubsection{Arquitetura do Bitcoin}
+        
+        \subsubsection{Mineração}
+        
+        \subsubsection{Valor do Bitcoin}
+
+\section{Ethereum}
+
+	\subsection{Histórico}
+
+	\subsection{Conceitos}
+    
+    	\subsubsection{Contas}
+    
+    	\subsubsection{Gas}
+        
+        \subsubsection{Smart contracts}
+
+	\subsection{Ethereum Virtual Machine}
+    
+    \subsection{Mineração}
+    
+    	\subsubsection{Prova de participação}
+        
+        \subsubsection{Otimização}
+    
+    \subsection{Limitações}
+    
+    	\subsubsection{O preço da computação}
+        
+        \subsubsection{Ethereum como um banco de dados}
+
+	\subsection{Segurança}
+    
+    \subsection{Aplicações}
+    
+\section{Interplanetary File System}
+
+	\subsection{Sistemas de arquivos distribuídos}
+    
+    \subsection{Sistemas de arquivos descentralizados}
+
+	\subsection{Arquitetura}
+    
+    	\subsubsection{Identidade}
+        
+        \subsubsection{Rede}
+        
+        \subsubsection{Rotas}
+        
+        \subsubsection{Trocas}
+        
+        \subsubsection{Objetos}
+        
+        \subsubsection{Arquivos}
+        
+        \subsubsection{Sistema de nomes}
+    
+    \subsection{Limitações}
+    
+    	\subsubsection{Censura de conteúdo}
+        
+    \subsection{Aplicações}
+
+\section{Internet das Coisas}
+
+	\subsection{Segurança}
+
+\section{Fog Computing}
+
+	\subsection{Cloud Computing}
+    
+    \subsection{Fog Computing e a Internet das Coisas}
+
+
+%=====================================================%
+
+\chapter{Modelagem}
+
+%=====================================================%
+%              Fim da monografia parcial              %
+%=====================================================%
+
+\chapter{Desenvolvimento}
+
+%=====================================================%
+
+\chapter{Resultados}
+
+%=====================================================%
+
+\chapter{Conclusão}
+
+
+
+% Bibliografia http://liinwww.ira.uka.de/bibliography/index.html um
+% site que cataloga no formato bibtex a bibliografia em computacao
+% \bibliography{nomedoarquivo.bib} (sem extensao)
+% \bibliographystyle{formato.bst} (sem extensao)
+
+\bibliography{bibliografia} 
+\bibliographystyle{abnt}
+%\bibliographystyle{plain}
+
+% Anexos (Opcional)
+\annex
+\chapter{Um Anexo}
+
+texto
+
+\chapter{Outro Anexo}
+
+texto
+
+\end{document}
+
