@@ -23,16 +23,16 @@
 %\collaborator[Prof.~Dr.]{Aguiar}{Marilton Sanchotene de}
 
 %Palavras-chave em PT_BR
-\keyword{palavrachave-um}
-\keyword{palavrachave-dois}
-\keyword{palavrachave-tres}
+\keyword{ethereum}
+\keyword{blockchain}
+\keyword{}
 \keyword{palavrachave-quatro}
 
 %Palavras-chave em EN_US
-\keywordeng{keyword-one}
-\keywordeng{keyword-two}
-\keywordeng{keyword-three}
-\keywordeng{keyword-four}
+\keywordeng{ethereum}
+\keywordeng{blockchain}
+\keywordeng{internet-of-things}
+\keywordeng{edge computing}
 
 \begin{document}
 
@@ -84,7 +84,7 @@
 \end{abstract}
 
 \begin{englishabstract}%
-  {Titulo do Trabalho em Ingles}
+  {Titulo do Trabalho em Inglês}
   
 	abstract
 \end{englishabstract}
@@ -106,10 +106,38 @@
 
 \chapter{Introdução}
 
+    Um marco para a economia foi o nascimento de formas de monetização digital. O primeiro indício da "era das moedas digitais" foi através de David Chaum, que propôs a ideia de dinheiro virtual em 1983 \cite{chaum1983blind}. A ideia de Chaum era a criação de uma moeda criptográfica capaz de servir para pagamentos ao mesmo tempo em que as partes envolvidas são anônimas, para isto, Chaum elegeu três propriedades fundamentais para que sua moeda virtual seja viável: 
+	
+	\begin{itemize}
+	    \item Inabilidade de terceiros rastrear quem, quando e a quantidade de valor transferido entre os envolvidos;
+	    \item Habilidade de participantes provarem que realizaram uma movimentação de valores em determinadas circunstâncias;
+	    \item Habilidade de parar a movimentação de valores em caso de fraude.
+	\end{itemize}
+	
+	Esta idealização rudimentar de dinheiro virtual era capaz de prover anonimidade entre os envolvidos, mas foi desastroso por centralizar as operações.
+	
+	A primeira manifestação de uma moeda virtual que realizava prova de trabalho para comprovar a autenticidade de transações entre usuários foi o \textit{B-Cash} definido por Wei Dai, entretanto o seu trabalho não é claro sobre o mecanismo por trás da prova de trabalho \cite{buterin2014next}. Adam Back propôs mais tarde o \textit{HashCash} que usava o método de resolução de enigmas para dar suporte ao valor monetário da moeda \cite{back2002hashcash}, entretanto a definição do \textit{HashCash} peca na veracidade da implementação computacional.
+	
+	[falar sobre o primeiro uso do blockchain]
+	
+	[falar sobre o bitcoin, sobre de onde vem o valor do bitcoin e sobre as capacidades do bitcoin]
+	
+	[falar sobre como usar essa tecnologia em outras aplicações]
+	
+	[falar sobre o problema da informação centralizada]
+	
+	[falar como a arquitetura de blockchain pode dar suporte em aplicações decentralizadas]
+	
+	[falar como o ethereum pode ajudar neste caso]
+
 \section{Organização da Monografia}
 
-% Como estruturar essa parte?
-% Falar sobre moedas virtuais?
+    [falar o motivo de manter os nomes originais em inglês]
+    
+    [falar da organização em capítulos]
+    
+    [falar sobre os anexos, se houverem]
+
 
 %=====================================================%
 
@@ -122,13 +150,23 @@
 
 \section{Blockchain}
 
-\Bchain vêm atraindo a atenção de pessoas em um ritmo crescente, em especial após o ápice do Bitcoin no final do ano de 2017...
+    \Bchain vêm atraindo a atenção de pessoas em um ritmo crescente, em especial após o ápice do Bitcoin no final do ano de 2017...
+    
+    %-----------------------------------------------------------------------------------------------------%
+    
+    \subsection{Histórico}
+	
+	
+	
+	%-----------------------------------------------------------------------------------------------------%
 
 	\subsection{Arquitetura}
     
     A arquitetura da \bchain tem inicio pelo bloco primordial, chamado de \textit{genesis}. Os demais blocos que compõem uma \bchain consistem basicamente de duas partes: dados de transações e valor de hash. Dados de transações consistem em informações que os participantes inserem na \bchain e o valor de hash é uma referência ao bloco diretamente anterior ao bloco atual, é um dado gerado durante o processo de mineração.
 
-	%\subsection{Histórico}
+    [imagem de uma blockchain genérica]
+    
+    [falar sobre como os blocos são gerados e fazer um link com as formas de obtenção de consenso e porque isso é importante nessa arquitetura]
 
 	\subsection{Obtenção do consenso}
     
@@ -143,26 +181,36 @@
         \subsubsection{...}
         
         % falar de outras provas de consenso?
-
-	\subsection{Estudo de caso: Bitcoin}
-    
-    	\subsubsection{Arquitetura do Bitcoin}
         
-        \subsubsection{Mineração}
-        
-        \subsubsection{Valor do Bitcoin}
 
+\newpage
 \section{Ethereum}
 
+    Ethereum é uma plataforma genérica de computação onde todas as transações são baseadas em conceitos de máquinas de estado e é implementado sobre a arquitetura de \textit{blockchain} \cite{wood2014ethereum}. A ideia do Ethereum é juntar conceitos de execução de código, monetização virtual e protocolos que executam na \textit{blockchain} para permitir o desenvolvimento de aplicações que demandam consenso arbitrário, escalabilidade, padronização e características de completude. Ethereum cumpre os requisitos ao adotar uma arquitetura baseada em \textit{blockchain} com uma linguagem de programação Turing-completa embarcada \cite{buterin2014next}.
+
 	\subsection{Histórico}
+	
+	
 
 	\subsection{Conceitos}
+	
+	    O Ethereum pode ser visto como uma máquina de estados baseada em transações. O primeiro estado, chamado de \textit{genesis} é usado como base para computações que acabam no estado final. Um estado pode conter informações sobre o saldo da conta, reputação, acordos de confiança - que são uma formalização quanto a interação entre as partes, e qualquer tipo de informação que pode ser representada por um computador.
+	    
+	    Podem existir - e existem, mais transações inválidas que transações válidas. Transações inválidas são casos onde existe uma redução do saldo de uma conta sem o aumento no saldo de outra conta, ou então o aumento no saldo de uma conta sem a redução do saldo em outra conta. Transações representam uma mudança válida entre dois estados. Uma mudança válida de estado é formalmente representada como:
+	    
+	    \begin{equation}
+	        \sigma_{t+1} = \Gamma(\sigma_t, T)
+	    \end{equation}
+	    
+	    onde $\Gamma$ é a função de transição de estado do Ethereum, $\sigma_t$ é o estado atual, $T$ é uma modificação neste estado e $\sigma_{t+1}$ é o próximo estado. Transações são armazenadas nos blocos que compõem a \textit{blockchain} do Ethereum. 
+	    
+	    Os blocos são armazenados nos computadores que compõem a rede do Ethereum realizando a mineração, através da mineração. O processo de mineração é incentivado através da geração de frações de \textit{Ether} - a moeda do Ethereum.
     
-    	\subsubsection{Contas}
+    	\subsubsection{Contas de participantes}
     
-    	\subsubsection{Gas}
+    	\subsubsection{\textit{Gas}}
         
-        \subsubsection{Smart contracts}
+        \subsubsection{\textit{Smart contracts}}
 
 	\subsection{Ethereum Virtual Machine}
     
@@ -172,13 +220,13 @@
         
         \subsubsection{Otimização}
     
-    \subsection{Limitações}
+    \subsection{Ethereum como um banco de dados}
     
     	\subsubsection{O preço da computação}
-        
-        \subsubsection{Ethereum como um banco de dados}
 
 	\subsection{Segurança}
+	
+	
     
     \subsection{Aplicações}
     
