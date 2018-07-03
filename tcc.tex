@@ -465,13 +465,48 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
     
 \section{Interplanetary File System}
 
-    O Interplanetary File System - IPFS é um sistema de arquivos distribuído que busca conectar todos os dispositivos com o mesmo sistema de arquivos \cite{benet2014ipfs}.
+    O \textit{InterPlanetary File System} - IPFS é um sistema de arquivos distribuído \textit{peer-to-peer} (P2P) que busca conectar todos os dispositivos com o mesmo sistema de arquivos \cite{benet2014ipfs}. O IPFS tem este nome por conta da sua definição, o sistema foi desenvolvido com foco em tecnologias futuras de exploração interplanetária, onde a comunicação entre a origem da informação e o ponto requisitante possui latência na ordem de minutos ou horas. O IPFS permite que uma versão de uma informação - uma parte da internet, por exemplo - seja armazenada via IPFS em um local e ser atualizada de tempos em tempos com a versão mais atual via versionamento, ou seja, o IPFS permite a comunicação via internet entre diferentes planetas.
     
-    Vários projetos utilizam o IPFS como base para a construção de uma internet cujo endereçamento é feito com base no conteúdo e não na origem do conteúdo. Um arquivo pode residir em diferentes computadores, mas é acessado através de uma hash que representa este arquivo. 
+    A estrutura de dados que dá suporte ao IPFS é a árvore Merkle.
     
-    Existem iniciativas que visam tornar o conhecimento da humanidade não censurável e resiliente de tal forma que nunca seja apagado, este é o caso da Wikipédia. Em 2017 o governo turco decidiu censurar o acesso da população a Wikipédia, este acontecimento motivou a organização Turkey Blocks a mover uma ação que visava disponibilizar a Wikipédia via IPFS\footnote{https://ipfs.io/blog/24-uncensorable-wikipedia/ - Acessado em Julho de 2018}. A natureza do IPFS permite o seu uso em uma rede de computadores sem a necessidade de internet.
+    Vários projetos utilizam o IPFS como base para a construção de uma internet cujo endereçamento é feito com base no conteúdo e não na origem do conteúdo. Um arquivo pode residir em diferentes computadores, mas é acessado através de uma hash que representa este arquivo.
+    
+    Diferentemente do protocolo HTTP, onde o conteúdo é endereçado baseado na sua localidade e tem como principal ponto de falha o servidor que armazena o conteúdo, o IPFS provê o endereço baseado no conteúdo. Cada arquivo é endereçado por uma hash que representa o arquivo, existe apenas uma hash por arquivo e, se um único bit do arquivo for modificado, a hash que representa este arquivo será diferente. O mecanismo de endereçamento do IPFS permite que o conteúdo acessado através da hash seja verificável, o que garante a consistência de arquivos em redes inseguras.
+    
+    O armazenamento de arquivos no IPFS é feito com base em arquivos objeto, que são objetos que representam um arquivo. Um objeto-arquivo contém um campo de dados, cujo tamanho máximo é de 256 kilobytes e uma lista de links para outros objetos no IPFS. Arquivos maiores que 256KB são divididos em múltiplas porções e armazenados em diferentes objetos-arquivo. A Figura \ref{fig:arquivo-objeto-ipfs} ilustra este mecanismo.
+    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=6cm]{imagens/arquivo-objeto-ipfs.pdf}
+        \caption{Representação de um arquivo por meio de um objeto no IPFS.}
+        \label{fig:arquivo-objeto-ipfs}
+    \end{figure}
+    
+    Arquivos que requerem mais de um objeto-arquivo para armazenar o seu conteúdo, são representados por um objeto-arquivo cujo campo de dados é vazio e o campo de links é populado por todas as hashes de objetos-arquivo que compõe o arquivo maior que 256KB, este mecanismo é representado na Figura \ref{fig:representacao-arquivo-grande-ipfs}.
+    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=15cm]{imagens/representacao-arquivo-grande-ipfs.pdf}
+        \caption{Representação de um arquivo grande por meio de um objeto no IPFS.}
+        \label{fig:representacao-arquivo-grande-ipfs}
+    \end{figure}
+    
+    A estrutura de armazenamento de arquivos no IPFS permite que haja armazenamento recursivo, o que dá suporte a diretórios. Esta característica faz com que o IPFS possa ser utilizado como um sistema de arquivos imutável. Ou seja, um arquivo adicionado ao IPFS poderá ser excluído somente se todos os nós que contém uma cópia do arquivo excluam sua versão do arquivo.
+    
+    O IPFS permite a modificação de arquivos via versionamento, um objeto \textit{Commit} representa uma versão de um objeto-arquivo, toda vez que um arquivo for modificado, é gerado um novo objeto Commit que possui uma referência ao Commit anterior. A Figura \ref{fig:representacao-commit-ipfs} ilustra este mecanismo, que é semelhante ao mecanismo de blockchains.
+    
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=16cm]{imagens/representacao-commit-ipfs.pdf}
+        \caption{Representação do versionamento de um objeto-arquivo no IPFS.}
+        \label{fig:representacao-commit-ipfs}
+    \end{figure}
+    
+    Existem iniciativas que visam tornar o conhecimento da humanidade não censurável e resiliente de tal forma que nunca seja apagado, este é o caso da Wikipédia. Em 2017 o governo turco decidiu censurar o acesso da população a Wikipédia, este acontecimento motivou a organização Turkey Blocks em conjunto com a equipe do IPFS, a mover uma ação que visava disponibilizar a Wikipédia via IPFS\footnote{https://ipfs.io/blog/24-uncensorable-wikipedia/ - Acessado em Julho de 2018}. Por conta da natureza distribuída do IPFS, ele não pode ser bloqueado simplesmente restringindo o acesso a determinados endereços IP.
 
 	\subsection{Arquitetura}
+	    
+	    A arquitetura do IPFS sintetiza as principais técnicas de versionamento de distribuição de conteúdo via rede P2P, como a tecnologia do BitTorrent, Git e SFS através de uma DHT. A principal característica deste sistema de arquivos distribuído.
     
     	\subsubsection{Identidade}
         
@@ -489,16 +524,16 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
     
     \subsection{Limitações}
     
-    Um dos possíveis problemas do IPFS está na sua natureza. Por ser um sistema de arquivos imutável, qualquer conteúdo adicionado ao IPFS permanecerá no IPFS enquanto houver alguma réplica daquele conteúdo existindo em algum nó participante. Conteúdos digitais protegidos por direitos autorais não podem ser censurados a menos que todos os nós que armazenam uma cópia do arquivo sejam derrubados.
+    Um dos principais problemas do IPFS está na sua natureza. Por ser um sistema de arquivos imutável, qualquer conteúdo adicionado ao IPFS permanecerá no IPFS enquanto houver alguma réplica daquele conteúdo existindo em algum nó participante. Conteúdos digitais protegidos por direitos autorais não podem ser censurados a menos que todos os nós que armazenam uma cópia do arquivo sejam derrubados.
     
-    Além da censura de conteúdo, o acesso a arquivos presentes no IPFS ainda é difícil para os usuários em geral. Embora uma página web estática possa ser armazenada completamente no IPFS, o acesso a essa página pelo navegador exige o uso de um serviço de nomes, o IPNS.
+    Além da censura de conteúdo, o acesso a arquivos presentes no IPFS ainda é difícil para os usuários em geral por conta da natureza do IPFS. Embora uma página web estática possa ser armazenada completamente no IPFS, o acesso a essa página pelo navegador exige o uso de uma camada de software capaz de interconectar o protocolo do IPFS com o protocolo HTTP. Para tal, existe o serviço de nomes - IPNS que lida com esta tarefa.
     
     O IPFS não executa ações sem que o usuário invoque-as explicitamente. Todo conteúdo deve ser replicado manualmente ou por algum processo automático de replicação. Protocolos desenvolvidos com base no IPFS, como o Filecoin, conseguem efetuar a replicação do conteúdo automaticamente \cite{jbenet47issue}.
+    
+    Outro problema que o IPFS enfrenta é a disponibilização de conteúdo. Se dois nós armazenam um determinado conteúdo e se, em algum instante de tempo, ambos os nós estiverem desconectados da rede do IPFS, o conteúdo estará indisponível para qualquer usuário que tente acessá-lo. O Filecoin é uma iniciativa para promover que nós armazenem arquivos em troca de uma moeda virtual \cite{protocollabs}, entretanto ainda está disponível apenas em modo ICO - \textit{Initial Coin Offering}.
+    
+    O IPFS consegue ser um substituto completo do protocolo HTTP, entretanto não há um equivalente ao protocolo HTTPS, ou seja, na versão atual o IPFS não lida com certificados 
         
-    \subsection{Aplicações}
-
-
-
 %=====================================================%
 
 \chapter{Modelagem}
