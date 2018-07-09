@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc} % acentuacao
 \usepackage{graphicx} % para inserir figuras
 \usepackage[T1]{fontenc}
+\usepackage{listings} % para inserir trechos de código
 
 \hypersetup{
     hidelinks, % Remove coloração e caixas
@@ -39,8 +40,8 @@
 \renewcommand{\advisorname}{Orientadora}           %descomente caso tenhas orientadora
 %\renewcommand{\coadvisorname}{Coorientadora}      %descomente caso tenhas coorientadora
 
-\newcommand{\bchain}{\textit{blockchain} }
-\newcommand{\Bchain}{\textit{Blockchain} }
+\newcommand{\bchain}{\textit{blockchain}}
+\newcommand{\Bchain}{\textit{Blockchain}}
 
 \maketitle 
 
@@ -97,23 +98,27 @@
 
 %lista de abreviaturas e siglas
 \begin{listofabbrv}{SPMD}
-        \item[DAG] Directed Acyclic Graph
-        \item[DHT] Distributed Hash Table
-        \item[DLT] Distributed Ledger Technology
-        \item[EUA] External User Account 
-        \item[IOT] Internet of Things
-        \item[IPFS] Interplanetary File System
-        \item[KEC] Keccak-256
-        \item[KEC512] Keccak-512
-        \item[MPT] Merkle Patricia Tree
-        \item[PoS] Proof of Stake
-        \item[PoW] Proof of Work
+    \item[dBFT] Delegated Byzantine Fault Tolerance
+    \item[BFT] Byzantine Fault Tolerance
+    \item[BGP] Byzantine Generals Problem
+    \item[DAG] Directed Acyclic Graph
+    \item[DHT] Distributed Hash Table
+    \item[DSHT] Distributed Sloppy Hash Table 
+    \item[DLT] Distributed Ledger Technology
+    \item[EUA] External User Account 
+    \item[IOT] Internet of Things
+    \item[IPFS] InterPlanetary File System
+    \item[IPNS] InterPlanetary Name System
+    \item[KEC] Keccak
+    \item[MPT] Merkle Patricia Tree
+    \item[PoS] Proof of Stake
+    \item[PoW] Proof of Work
 \end{listofabbrv}
 
 %Sumario
 \tableofcontents
 
-\chapter{Introdução}
+\chapter{Introdução}\label{chap:introducao}
 
     Um marco para a economia foi o desenvolvimento de formas de monetização digital. O primeiro indício da "era das moedas digitais" foi através de David Chaum, que propôs a ideia de dinheiro virtual em 1983 \cite{chaum1983blind}. A ideia de Chaum era a criação de uma moeda criptográfica capaz de servir para pagamentos ao mesmo tempo em que as partes envolvidas são anônimas, para isto, Chaum elegeu três propriedades fundamentais para que sua moeda virtual seja viável: 
 	
@@ -129,9 +134,9 @@
 	
 	O Bitcoin é o primeiro e maior caso de sucesso em moedas digitais. O sistema proposto por \cite{nakamoto2008bitcoin} busca uma forma de realizar transações financeiras entre duas partes cuja autenticidade possa ser provada sem o intermédio de um terceiro agente. As transações no Bitcoin são computacionalmente impossíveis de serem revertidas uma vez que são aceitas, mineradas e adicionadas no livro público de transações.
 	
-	O livro público de transações é uma estrutura de dados organizada em blocos e distribuída em vários nós que compõe a rede do Bitcoin. Tal organização é uma cadeia de blocos ligados, popularmente \bchain. A inovação no Bitcoin reside no uso de \bchain em um sistema que garante transações não fraudulentas, disponibilidade contínua e a não necessidade de terceiros na movimentação de fundos. Um dos mecanismos que o Bitcoin utiliza é uma prova matemática que uma quantidade significante de trabalho sobre cada transação foi realizada e que esta transação é válida. 
+	O livro público de transações é uma estrutura de dados organizada em blocos e distribuída em vários nós que compõem a rede do Bitcoin. Tal organização é uma cadeia de blocos ligados, popularmente chamado de \bchain. A inovação no Bitcoin reside no uso de \bchain em um sistema que garante transações não fraudulentas, disponibilidade contínua e a não necessidade de terceiros na movimentação de fundos econômicos. Um dos mecanismos que o Bitcoin utiliza é uma prova matemática que uma quantidade significante de trabalho sobre cada transação foi realizada e que esta transação é válida. 
 	
-	A prova de que uma transação não é falsa vem da organização das transações. Cada bloco que compõe a \bchain contém, não exclusivamente, um conjunto de transações e uma prova de trabalho, que é um número especial cuja hash do bloco começa com uma quantidade específica de zeros. A quantidade de zeros no início da hash do bloco indica a dificuldade para provar que o bloco é válido, quanto maior a dificuldade da prova, mais zeros existirão no início da hash do bloco e maior será o tempo para descobrir o número especial.
+	A prova de que uma transação não é falsa vem da organização das transações. Cada bloco que compõe a \bchain contém, não exclusivamente, um conjunto de transações e uma prova de trabalho, que é um número especial cuja hash do bloco, com este número especial agregado, começa com uma quantidade específica de zeros. A quantidade de zeros no início da hash do bloco indica a dificuldade para provar que o bloco é válido, quanto maior a dificuldade da prova, mais zeros existirão no início da hash do bloco e maior será o tempo para descobrir o número especial.
 	
 	A garantia da ordem dos blocos ocorre ao armazenar em cada novo bloco, a hash que descreve o bloco anterior. Este mecanismo garante que qualquer mudança no bloco anterior é reconhecida e acaba invalidando a ramificação no qual o novo bloco foi adicionado. A Figura \ref{fig:blockchain-basica} ilustra este mecanismo.
 	
@@ -170,9 +175,9 @@
 	
 	A centralização da informação é, além de um mecanismo de otimização de recursos, uma forma arquitetural no desenvolvimento de sistemas. Sistemas centralizados são fáceis e baratos de serem desenvolvidos, porém sofrem de um problema crítico: possuem uma unidade central que não pode falhar. Uma falha catastrófica do sistema inviabiliza o seu uso, entretanto ataques maliciosos como ataques de negação de serviço podem comprometer o sistema sem que haja uma falha no sistema.
 	
-    Sistemas decentralizados não possuem um único ponto de falha, uma vez que a informação é distribuída ao longo da rede, tornando-os resilientes a falhas e ataques maliciosos por natureza. Uma arquitetura decentralizada completa deve conter três unidades básicas para o seu funcionamento: unidade de processamento, unidade de armazenamento e uma unidade de troca de mensagens. A rede Ethereum provê as três características necessárias, entretanto um estudo aprofundado sobre a viabilidade e formas de otimização é necessário, uma vez que a computação, no Ethereum, exige um preço. Na proposta deste trabalho, o estudo concentra-se em usar o Ethereum como unidade de processamento e o IPFS como unidade de armazenamento.
+    Sistemas decentralizados não possuem um único ponto de falha, uma vez que a informação é distribuída ao longo da rede, tornando-os resistentes a falhas de múltiplos nós e ataques maliciosos por natureza. Uma arquitetura decentralizada completa deve conter três unidades básicas para o seu funcionamento: unidade de processamento, unidade de armazenamento e uma unidade de troca de mensagens. O Ethereum provê as três características necessárias, entretanto um estudo aprofundado sobre a viabilidade e formas de otimização é necessário, uma vez que a computação, no Ethereum, exige um preço. Na proposta deste trabalho, o estudo concentra-se em usar o Ethereum como unidade de processamento e o IPFS como unidade de armazenamento.
     
-    A arquitetura da \bchain tem inicio pelo bloco primordial, chamado de \textit{genesis}. Os demais blocos que compõem uma \bchain consistem basicamente de duas partes: dados de transações e valor de hash. Dados de transações consistem em informações que os participantes inserem na \bchain e o valor de hash é uma referência ao bloco diretamente anterior ao bloco atual, é um dado gerado durante o processo de mineração.
+    A arquitetura da \bchain tem inicio pelo bloco primordial, chamado de \textit{genesis}. Os demais blocos que compõem uma \bchain consistem basicamente de duas partes: dados de transações e uma hash. Dados de transações consistem em informações que os participantes inserem na \bchain e a hash é uma referência ao bloco diretamente anterior ao bloco atual, é um dado gerado durante o processo de mineração.
 	
 	[falar como o ethereum pode ajudar neste caso]
 	
@@ -190,50 +195,85 @@
 	
 	
 	--------------------
+	
+\section{Motivação}\label{sc:motivacao}
 
-\section{Organização da Monografia}
+    A prova da identidade de um ator sobre um ato é um problema antigo, que possui muitas soluções. Governos criam cadastros para que pessoas possam se identificar, no Brasil, por exemplo, pessoas possuem diferentes formas de serem identificadas: através do CPF, Registro Geral, entre outros. A duplicação de informação através de cadastros causa vários impactos na performance organizacional do país.
+    
+    O governo estoniano resolveu o problema da identificação de cidadãos através de um sistema baseado em \bchain próprio, de código fechado. Neste sistema, cada cidadão possui suas informações armazenadas em uma \bchain acessíveis apenas sob a autorização do cidadão com porte de seu cartão de identificação. O \textit{ID-Card} é um cartão de identificação com um chip embarcado, neste chip estão contidas informações sobre o cidadão e uma chave pública de 2048 bits, usada para provar a identificação do cidadão estoniano \cite{eidentity}.
+    
+    A digitalização de informações dos cidadãos estonianos é uma prova de que sistemas digitais seguros através de \bchain podem ser utilizados para identificação, autorização e autenticação de pessoas e, de uma forma estendida, dispositivos.
+    
+    Este trabalho busca uma forma de digitalizar o processo de identificação de atores, cujo objetivo é um sistema livre de duplicação de dados, acessível e seguro, definido e implementado sob a plataforma Ethereum.
+    
+    Um problema que este trabalho busca solucionar é o da recuperação de chaves. Um usuário identificado possui um par de chaves, uma pública e uma privada, respeitando o sistema simétrico de criptografia. Um usuário pode assinar um documento, autorizar o acesso aos seus dados e acessar suas informações utilizando seu par de chaves. Contudo, em um cenário realista, pessoas esquecem de suas senhas e, manter informações decentralizadas, imutáveis e passíveis de serem recuperadas é um desafio.
+	
+\section{O Problema do Consenso}\label{sc:problema-do-consenso}
+
+    As redes, tanto do Bitcoin quanto do Ethereum e qualquer outro sistema baseado em \bchain contam com uma característica em comum, além de uma arquitetura baseada em \bchain, podem existir um número ilimitado de validadores. O problema surge quando é necessário haver um mecanismo de cooperação entre eles, para garantir um consenso global sobre a informação armazenada.
+    
+    O consenso é um problema em sistemas distribuídos uma vez que o acordo entre os nós deve ser alcançado em um ambiente onde nós podem falhar ou realizar operações inválidas.
+        
+    \subsection{O Problema dos Generais Bizantinos}\label{ssc:bgp}
+    
+    O problema dos generais bizantinos - \textit{Byzantine General Problem} (BGP) consiste em nós - generais, que podem trocar informações válidas ou não com outros nós. O BGP é um problema clássico de sistemas distribuídos e existem diversas soluções para este problema, \cite{coulouris} apresenta algumas para sistemas decentralizados.
+    
+    \subsection{Tolerância a Falha Bizantina}\label{ssc:bft}
+    
+    Algoritmos tolerantes a falhas bizantinas (BFT) são aqueles que resolvem o problema do consenso entre nós que podem gerar dados arbitrários. Esta classe de algoritmos possui as propriedades de (a) segurança, onde coisas ruins ao sistema podem acontecer e o algoritmo consegue lidar com isto e (b) sobrevivência, onde o estado do sistema pode progredir mesmo com a presença de falhas.
+    
+    O número de falhas suportadas por algoritmos BFT, é de até $(n - 1)/3$, onde $n$ é o número total de validadores que compõe o sistema. Portanto, algoritmos tolerantes a falhas bizantinas conseguem garantir a segurança e sobrevivência do sistema com até 33\% dos validadores em estado de falha bizantina.
+    
+    \subsection{Tolerância a Falha Bizantina Delegada}\label{ssc:dbft}
+    
+    O problema da tolerância a falhas bizantinas delegadas (dBFT) é uma variação do BFT. Nesta classe de algoritmos, os nós em uma rede P2P são separados em dois tipos: nós contadores e nós ordinários.
+    
+    Nós ordinários não participam do processo de consenso, em vez disto, eles participam de um processo de eleição para selecionar nós contadores que os representarão. Somente os nós contadores eleitos participarão do processo de consenso.
+    
+    Uma transação computada é transmitida via \textit{broadcast} por um nó contador aleatório para todos os outros nós contadores, se ao menos 66\% dos nós contadores concordarem com a transação, ela é aceita e adicionada a \bchain.
+    
+    O trabalho de Bach \cite{bach2018comparative} faz um comparativo entre diversos algoritmos de consenso. Bach obteve resultados preliminares que indicam a ineficiência de algoritmos do tipo PoW e a sua necessidade de serem substituídos por algoritmos modernos. 
+    
+    Bach também mostra novas abordagens, como algoritmos de Prova de Execução (PoX) e Prova de Sorte (PoL), que ainda não possuem uma prova prática de funcionamento, mas estão em discussão na comunidade.
+    
+\section{O Problema dos 51\%}
+
+    
+
+\section{Organização da Monografia}\label{sc:organizao-da-monografia}
     
     Nesta monografia são utilizados vários termos em inglês; a opção por manter os nomes originais vem da premissa de que esta área de pesquisa é recente e existem muitos estudos na língua inglesa. Manter palavras chave em inglês proporciona maior integração entre trabalhos de diferentes autores, facilitando a integração de conceitos.
     
-    A sessão \ref{ssc:trabalhos-relacionados} contém uma seleção de trabalhos importantes relacionados com a arquitetura em \bchain, Ethereum, \textit{Fog Computing}, Internet das Coisas e sistemas decentralizados. A revisão técnica das ferramentas utilizadas neste trabalho é feita no Capítulo \ref{chap:revisao-tecnica}, que contém uma descrição técnica do Ethereum como unidade de computação e IPFS como unidade de armazenamento.
+    A Sessão \ref{ssc:trabalhos-relacionados} contém uma seleção de trabalhos importantes relacionados com a arquitetura em \bchain, Ethereum,  e sistemas decentralizados. A revisão técnica das ferramentas utilizadas neste trabalho é feita no Capítulo \ref{chap:revisao-tecnica}, que contém uma descrição técnica do Ethereum como unidade de computação e IPFS como unidade de armazenamento. O Capítulo \ref{chap:modelagem} contém a modelagem preliminar para a resolução do problema proposto neste trabalho.
     
-    Este trabalho inclui alguns anexos úteis para o melhor entendimento da plataforma Ethereum. O Anexo \ref{annx:taxas-por-instrução} contém uma relação com as taxas em Gas para a execução de programas no Ethereum, já o Anexo \ref{annx:arvore-merkle-patricia} contém uma descrição quanto sobre a árvore Merkle Patrícia, que é a estrutura de dados fundamental para a execução do Ethereum.
+    % Este trabalho inclui alguns anexos úteis para o melhor entendimento da plataforma Ethereum. O Anexo \ref{annx:taxas-por-instrução} contém uma relação com as taxas em unidades de Wei por operação na execução de programas no Ethereum, já o Anexo \ref{annx:arvore-merkle-patricia} contém uma descrição quanto sobre a árvore Merkle Patrícia, que é a estrutura de dados fundamental para a execução do Ethereum.
 
 
 %=====================================================%
 
 \chapter{Trabalhos Relacionados}\label{ssc:trabalhos-relacionados}
-
-A pesquisa e o desenvolvimento de sistemas baseados em \bchain é um assunto quente atualmente. Várias frentes buscam a utilização desta tecnologia para a disponibilização de serviços seguros quanto a autenticidade da informação.
-
-Além do Ethereum existem outras plataformas cujo o objetivo é fornecer uma arquitetura em \bchain segura. A busca para o processamento mais eficiente de transações levou no desenvolvimento do EOS, um sistema operacional construído sob uma arquitetura em \bchain. [COMO CITAR ISSO? https://github.com/EOSIO/Documentation/blob/master/TechnicalWhitePaper.md] O EOS é uma plataforma aberta e gratuita para o uso e desenvolvimento de aplicações, e \textit{forks} são naturais e base para o algoritmo de consenso, baseado em Prova de Participação. O grande diferencial para as primeiras versões do EOS, disponibilizadas em junho de 2018 e a versão equivalente do Ethereum no mesmo período, é a velocidade em que transações são processadas na rede principal.
-
-Embora existam poucos recursos confiáveis sobre o funcionamento do EOS, isto é, a principal fonte de informação técnica se resguarda de erros no processo de escrita do documento que descreve a plataforma EOS; é uma plataforma em crescente ascensão que promete ser uma alternativa viável ao Ethereum em poucos anos.
-
-A arquitetura em \bchain é utilizada em várias frentes, como no suporte para o desenvolvimento de nações ou como suporte a um sistema financeiro virtual, \cite{gomez2017creating} lista uma variedade de plataformas em \bchain e aplicações em seu trabalho. Nesta sessão serão apresentados casos de uso de \bchain em geral ou Ethereum.
-
---- talvez remover ou reescrever esse parágrafo ---
-
-Sistemas de identificação sofrem com o problema da duplicação de dados. No Brasil existem diferentes formas de identificação para uma mesma pessoa: Registro Geral, Cadastro de Pessoa Física, Título Eleitoral, Carteira Nacional de Habilitação, entre outros. Com o Título Eleitoral uma pessoa identificada por seu Registro Geral pode exercer a democracia ao votar no seu candidato durante um período eleitoral. A necessidade de documentos diferentes é reflexo da duplicação de informação.
-
-Governos tecnológicos como a Estônia adotam um sistema de identificação digital. Cada cidadão estoniano possui um único cartão de identificação, utilizado em todos os serviços governamentais. A tecnologia por trás deste sistema é a \bchain KSI (como citar o site?), que promove interoperabilidade entre quase todos os serviços do governo.
-
---------------
-
-O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes fazem parte de uma rede, requer um sistema flexível o suficiente para permitir o escalonamento sem que haja perdas no nível de segurança. Arquiteturas baseadas em \bchain podem ser 
-
-
-    A Slock.it busca automatizar processos e interligar nós via \bchain [https://blog.slock.it/slock-it-iot-layer-f305601df963]
-
-[ethembedded , ethereum light client]
-
-
-    [Falar sobre o EOS que pretende ser concorrente do ethereum?]
-
-    \textbf{falar sobre outras moedas virtuais que possuem a capacidade do ethereum, como o IOTA ou sobre trabalhos cientificos que usam blockchain?}
-
     
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    A pesquisa e o desenvolvimento de sistemas baseados em \bchain é um assunto quente atualmente. Várias frentes buscam a utilização desta tecnologia para a disponibilização de serviços seguros quanto a autenticidade da informação.
+    
+    A arquitetura em \bchain é utilizada em várias frentes, como no suporte para o desenvolvimento de nações ou como suporte a um sistema financeiro virtual, \cite{gomez2017creating} lista uma variedade de plataformas em \bchain e aplicações em seu trabalho. Nesta sessão serão apresentados casos de uso de \bchain em geral ou Ethereum.
+    
+    O problema de identificação de usuários é conhecido há décadas e resolvido de inúmeras formas de forma decentralizada e, recentemente, possui algumas abordagens em plataformas decentralizadas. Considerando que sistemas centralizados possuem vulnerabilidades como sequestro de contas - \textit{Hijacking}, negação de serviço, ataques de homem no meio, entre outros; algumas abordagens já resolvem este problema.
+    
+    São soluções existentes para o problema de autenticação em sistemas centralizados: autenticação baseada em usuário e senha, via chaves assimétricas, biometria e, mais recentemente, a abordagem de autenticação via multi fatores, onde um usuário é autenticado por um dos métodos anteriores e confirma o processo via um dispositivo confiável, como um \textit{smartphone}.
+    
+    Entretanto, serviços desse tipo contam com o problema da centralização da informação. Se uma empresa resolver quebrar uma clausula do contrato com o cliente e acessar os dados do cliente, ela pode fazer isto. Se um governo emitir uma ordem para a censura de um conteúdo, ele pode fazer isso apenas bloqueando o servidor central.
+    
+    Na tentativa de desenvolver uma forma de garantir segurança na autenticação, autorização e gerenciamento de contas em uma arquitetura baseada em \bchain, Thakur desenvolveu um método com base no Ethereum \cite{thakur2017authentication}.
+    
+    O trabalho de Thakur buscou desenvolver um sistema transparente, distribuído, de fácil utilização, capaz de que transações sejam verificadas, capaz de lidar com troca de mensagens e quase impossível de ser \textit{hackeado}. O sistema desenvolvido por Thakur também possui a característica de que o conteúdo de qualquer tipo de dado, seja de transações ou mensagens seja acessível somente pelo dono deste conteúdo.
+    
+    Thakur resolveu o problema da autenticação, autorização e gerenciamento de contas através do Ethereum, entretanto está em seu estágio inicial e, uma vez que a autenticação é executada via carteiras do Ethereum, se um usuário esquecer sua senha, o acesso a sua carteira para que possa se autenticar ao sistema é, inevitavelmente, impossível de ser feito.
+    
+    Embora Bach tenha mostrado que algoritmos que executam PoW consumam muita energia quando comparado a outras abordagens, tornando sistemas baseados em \bchain mais caros em relação a sistemas centralizados \cite{bach2018comparative}, novas abordagens estão surgindo, seja por uso de algoritmos de PoS ou por outros meios de otimização.
+    
+    Além do Ethereum existem outras plataformas cujo o objetivo é fornecer uma arquitetura em \bchain segura. A busca para o processamento mais eficiente de transações levou no desenvolvimento do EOS, um sistema operacional construído sob uma arquitetura em \bchain \cite{eos2018}. O EOS é uma plataforma aberta e gratuita para o uso e desenvolvimento de aplicações, e \textit{forks} são naturais e base para o algoritmo de consenso, baseado em Prova de Participação. O grande diferencial para as primeiras versões do EOS, disponibilizadas em junho de 2018 e a versão equivalente do Ethereum no mesmo período, é a velocidade em que transações são processadas na rede principal.
+    
+    Embora existam poucos recursos confiáveis sobre o funcionamento do EOS, isto é, a principal fonte de informação técnica se resguarda de erros no processo de escrita do documento que descreve a plataforma EOS; é uma plataforma em crescente ascensão que promete ser uma alternativa viável ao Ethereum em poucos anos.
     
     Segundo \cite{spurjeonsurvey}, o Ethereum é a segunda geração das plataformas baseadas em \bchain. Plataformas baseadas em \bchain de segunda geração são mais capazes que o Bitcoin, cuja classificação é a de primeira geração. 
     
@@ -241,9 +281,11 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
     
     Plataformas de terceira geração habilitam que haja governança na \bchain, onde existem participantes especiais que representam líderes do sistema. Esses tipos de plataforma também promovem a interoperabilidade entre diferentes plataformas. Exemplos de plataformas em \bchain de terceira geração são o Cardano e o IOTA \cite{spurjeonsurvey}.
     
-    A maior inovação do Cardano está em seu \textit{design}. A tecnologia por trás do Cardano promove que milhares de transações por segundo sejam realizadas com segurança, isto acontece por conta de duas características:
+    A maior inovação do Cardano está em seu \textit{design}. A tecnologia por trás do Cardano promove que milhares de transações por segundo sejam realizadas com segurança, isto acontece por conta de seu sistema de obtenção de consenso: Ouroboros \cite{kiayias2017ouroboros}.
     
-    Cardano é uma ótima tecnologia para operar entre diferentes blockchains, pode suprir as deficiências atuais do Ethereum quanto a escalabilidade, delegando tarefas a outros sistemas de blockchain. Contudo iniciativas como o Ethereum Plasma incentivam que o desenvolvimento deste trabalho seja somente sobre a plataforma Ethereum.
+    O Ouroboros é um algoritmo PoS matematicamente comprovado ser seguro, cujos participantes são dinâmicos. Uma das grandes vantagens do Ouroboros é ser definido matematicamente, testado matematicamente e implementado em Haskell. A natureza do algoritmo PoS que realiza a eleição de líder consome consideravelmente menos energia que as abordagens baseadas em PoW. O trabalho de Kiayias e sua equipe no Ouroboros pode ser visto em \cite{kiayias2017ouroboros}, onde contém todas as provas matemáticas do protocolo. 
+    
+    Cardano é uma ótima tecnologia para operar entre diferentes blockchains, pode suprir as deficiências atuais do Ethereum quanto a escalabilidade, delegando tarefas a outros sistemas de blockchain. Entretanto a implementação da plataforma ainda está em seus estágios iniciais, em Junho de 2018 ainda não há uma forma de executar os \textit{smart contracts} do Cardano em nós que rodam em distribuições Linux. Iniciativas como o Ethereum Plasma incentivam que o desenvolvimento deste trabalho seja somente sob o escopo da plataforma Ethereum.
     
     IOTA é um sistema distribuído com foco em Internet das Coisas. O IOTA não é baseado em \bchain, a tecnologia por trás do sistema é chamada de \textit{Tangle} e é definida sob uma estrutura de Grafo Direcional Acíclico (DAG). A tecnologia utilizada no Tangle permite a inexistência de mineradores, logo o funcionamento da plataforma é diferente das tecnologias equivalentes baseadas em \bchain.
     
@@ -251,11 +293,10 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
     
     As principais características do IOTA estão na capacidade de escalabilidade do sistema, uma vez que não existem mineradores e o trabalho de validação é distribuído em todos os participantes habilitando o processamento em paralelo de transações. A característica de não possuir mineradores garante que transações sejam processadas sem taxas; o ativo digital relacionado ao IOTA é gerado uma única vez, durante a primeira transação, ou seja, novos \textit{tokens} - ativo digital referente ao IOTA, não são gerados, desta forma a plataforma nunca sofrerá com inflação econômica.
     
-    Outra característica do IOTA é a sua função hash, o Curl-P. Segundo a equipe do IOTA, o Curl-P é um algoritmo de geração de hashes que possui imunidade quântica. Entretanto, o algoritmo Curl, versão anterior ao Curl-P, já foi demonstrado que possui falhas criptográficas, permitindo que transações sejam adulteradas \cite{heilman} e a equipe do IOTA encoraja que uma assinatura não seja usada mais que uma vez, devido a natureza da função hash \cite{teamiota}.
+    Outra característica do IOTA é a sua função hash, o Curl-P. Segundo a equipe do IOTA, o Curl-P é um algoritmo de geração de hashes que possui imunidade quântica. Entretanto, o algoritmo Curl, versão anterior ao Curl-P, já foi demonstrado que possui falhas criptográficas, permitindo que transações sejam adulteradas \cite{heilman} e a equipe do IOTA encoraja que uma assinatura não seja usada mais que uma vez no algoritmo Curl-P, devido a natureza da função hash definida \cite{teamiota}.
     
-    O IOTA é uma plataforma que trouxe diferentes visões arquiteturais sobre sistemas decentralizados que possuem um ativo digital envolvido e que permitem o desenvolvimento de aplicações decentralizadas. A principal característica do IOTA é a simplicidade do protocolo, que promove o uso em dispositivos de baixo consumo de energia
+    O IOTA é uma plataforma que trouxe diferentes visões arquiteturais sobre sistemas decentralizados que possuem um ativo digital envolvido e que permitem o desenvolvimento de aplicações decentralizadas. A principal característica do IOTA é a simplicidade do protocolo, que promove o uso em dispositivos de baixo consumo de energia.
     
-
 \chapter{Revisão Técnica}\label{chap:revisao-tecnica}
 
 	%-----------------------------------------------------------------------------------------------------%
@@ -307,7 +348,7 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
 	
 	A execução do Ethereum inicia com um estado chamado de \textit{genesis}. A mudança de estado ocorre na execução de transações. Dado um conjunto de transações válidas e aceitas, estas são armazenadas permanentemente e o estado evolui. O processo de aceitação e validação de transações ocorre na etapa de mineração, que será abordada posteriormente.
 
-	O estado global do Ethereum é representado por uma árvore, essa forma de representação do estado promove um mecanismo de otimização, onde após a adição de um bloco, apenas uma pequena parte da árvore precisa ser modificada. A diferença entre a representação do estado em um bloco e outro deve ser, geralmente, mínima. Dados que são armazenados em um bloco já adicionado à \bchain jamais podem ser modificados, apenas referencias via \textit{hashes}. O estado global do Ethereum é definido via um tipo de árvore chamado de Merkle Patricia - MPT, este esquema permite que um bloco seja apenas inserido ou deletado, jamais modificado. A definição da árvore Merkle Patricia utilizada no Ethereum é encontrada no Anexo \ref{annx:arvore-merkle-patricia}.
+	O estado global do Ethereum é representado por uma árvore, essa forma de representação do estado promove um mecanismo de otimização, onde após a adição de um bloco, apenas uma pequena parte da árvore precisa ser modificada. A diferença entre a representação do estado em um bloco e outro deve ser, geralmente, mínima. Dados que são armazenados em um bloco já adicionado à \bchain jamais podem ser modificados, apenas referencias via \textit{hashes}. O estado global do Ethereum é definido via um tipo de árvore chamado de Merkle Patricia - MPT, este esquema permite que um bloco seja apenas inserido ou deletado, jamais modificado. A definição da árvore Merkle Patricia utilizada no Ethereum é encontrada em anexo no trabalho de  Wood \cite{wood2014ethereum}.
 	
 	O mecanismo de evolução do estado toma como base um conjunto de transações que, quando aceitas levam a um novo estado. Operações no estado levam na ramificação da MPT. A Figura \ref{fig:estado-global-ethereum} ilustra o mecanismo de evolução de estados. 
 	
@@ -358,8 +399,9 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
 	
 	A validação de blocos ocorre através de uma prova matemática, chamado de prova de trabalho - PoW. Cada sistema baseado em \bchain implementa seu próprio algoritmo de PoW, no caso do Ethereum o algoritmo que realiza a verificação dos blocos no modelo de PoW é chamado de \textit{Ethash}. Esta informação é importante pois o Ethereum está passando a realizar a verificação de blocos via prova de participação - PoS, onde a participação de mineradores será irrelevante.
 	
-	Enquanto não há a transição do modelo de PoW para PoS, o Ethereum mantém o tempo médio para a mineração de um bloco em torno de 12 segundos, o que é um péssimo tempo de resposta ao comparar o sistema de computação do Ethereum com serviços de nuvem centralizados.
-
+	Ramificações da blockchain do Ethereum acontecem o tempo todo e a plataforma é preparada para isso. Novos blocos são sempre adicionados na ramificação que possui a maior prova de trabalho. Embora esta solução sofra do principal problema de blockchains que executam PoW, que é o ataque dos 51\%, esta é uma abordagem que garante a validade das transações contidas em cada bloco.
+	
+	Enquanto não há a transição do modelo de PoW para PoS, a rede principal do Ethereum mantém o tempo médio para a mineração de um bloco em torno de 12 segundos, o que é um péssimo tempo de resposta ao comparar o sistema de computação do Ethereum com serviços de nuvem centralizados. A abordagem preliminar deste trabalho consiste em uma rede privada, no qual utiliza um algoritmo de PoA implementado pelo Parity \cite{parity2018wiki}, onde a mineração de blocos escala milhares de vezes.
 
 	%-----------------------------------------------------------------------------------------------------%
     
@@ -420,7 +462,7 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
 	
 	As execuções de \textit{smart contracts} são encapsuladas por uma região segura para execução de instruções, garantindo que os fundos gastos para a execução malsucedida de um contrato sejam devolvidos a conta que invocou a execução. Exceções ocorrem por diversos motivos, como o consumo máximo de Gas ser atingido ou a execução inválida de instruções.
 	
-	As taxas de execução são cobradas em três circunstâncias: na execução das instruções de um contrato, no envio ou execução de um contrato e no uso de memória pela EVM. Este trabalho contém uma listagem com a taxa para a execução de instruções e se encontra no Anexo \ref{annx:taxas-por-instrução}.
+	As taxas de execução são cobradas em três circunstâncias: na execução das instruções de um contrato, no envio ou execução de um contrato e no uso de memória pela EVM. Uma listagem com as taxas para execução de operações na EVM é encontrada no anexo do trabalho de Wood \cite{wood2014ethereum}.
   
 	%-----------------------------------------------------------------------------------------------------%
     
@@ -451,27 +493,29 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
     
 	%-----------------------------------------------------------------------------------------------------%
     
-%    \subsection{Ethereum Plasma}
+    \subsection{Ethereum Plasma}\label{ssc:ethereum-plasma}
+    
+    Na definição original e no estado atual da rede principal do Ethereum existe um grande problema de escalabilidade. A taxa de transações mineradas é variável, mas em média é em torno de 15 transações por segundo, devido ao algoritmo de PoW utilizado no Ethereum atualmente \cite{bach2018comparative}. O uso do protocolo Casper introduz um nível superior de segurança e performance no Ethereum mas o problema de escalabilidade continua. Isso torna-se um problema no uso do Ether como uma alternativa de pagamentos, uma vez que transações podem demorar vários segundos para serem concluídas.
+    
+    O Ethereum Plasma é uma solução que busca resolver o problema de escalabilidade ao adotar uma metodologia parecida com o Ouroboros \cite{kiayias2017ouroboros}: uso de múltiplas blockchains em conjunto. Este modelo consta na divisão de uma blockchain em duas blockchains menores que realizam transações e comunicam seus resultados a blockchain pai. Este processo pode ser repetido, teoricamente, infinitas vezes ao ponto de escalar o Ethereum a mais de 20 mil transações por segundo para uma árvore de blockchains de profundidade 11 \cite{poon2017plasma}, considerando a média de transações na rede principal do Ethereum.
+    
+    O desenvolvimento do Ethereum Plasma está ocorrendo atualmente, ainda não é acessível para testes e comprovação de performance. Um problema ainda não resolvido sobre a adoção do Ethereum Plasma é a tarefa de juntar as transações das blockchains filhas à blockchain pai. Outro problema que pode ser enfrentado pelo Ethereum Plasma é no acordo entre as transações.
+    
+    Não necessariamente uma transação realizada rapidamente em uma blockchain filha é válida. Isto pode causar potenciais problemas para esta abordagem de otimização em redes públicas do Ethereum. Entretanto, em um sistema privado que realiza Prova de Autoridade (PoA), onde há um controle sobe os nós que realizam a validação de transações, esta abordagem pode permitir uma alta escalabilidade. Mais estudos são necessários nesta área, afim de promover o desenvolvimento do Ethereum Plasma ou outras alternativas para aumentar a escalabilidade da plataforma.
 
 % 	%-----------------------------------------------------------------------------------------------------%
     
 %     \subsection{Aplicações}
     
-%     [falar sobre aplicações em áreas financeiras]
-    
-%     [aplicações em organizações decentralizadas]
-    
-%     [aplicações em iot]
-    
-\section{Interplanetary File System}
+\section{InterPlanetary File System}
 
-    O \textit{InterPlanetary File System} - IPFS é um sistema de arquivos distribuído \textit{peer-to-peer} (P2P) que busca conectar todos os dispositivos com o mesmo sistema de arquivos \cite{benet2014ipfs}. O IPFS tem este nome por conta da sua definição, o sistema foi desenvolvido com foco em tecnologias futuras de exploração interplanetária, onde a comunicação entre a origem da informação e o ponto requisitante possui latência na ordem de minutos ou horas. O IPFS permite que uma versão de uma informação - uma parte da internet, por exemplo - seja armazenada via IPFS em um local e ser atualizada de tempos em tempos com a versão mais atual via versionamento, ou seja, o IPFS permite a comunicação via internet entre diferentes planetas.
+    O \textit{InterPlanetary File System} - IPFS é um sistema de arquivos distribuído \textit{peer-to-peer} (P2P) que busca conectar todos os dispositivos com o mesmo sistema de arquivos com base em uma estrutura de dados em forma de grafo acíclico chamado de Merkle DAG.
     
-    A estrutura de dados que dá suporte ao IPFS é a árvore Merkle.
+    O IPFS é nomeado deste forma por conta da sua definição, o sistema foi desenvolvido com foco em tecnologias futuras de exploração interplanetária, onde a comunicação entre a origem da informação e o ponto requisitante possui latência na ordem de minutos ou horas. O IPFS permite que uma versão de uma informação - uma parte da internet, por exemplo - seja armazenada via IPFS em um local e ser atualizada de tempos em tempos com a versão mais atual via versionamento, ou seja, o IPFS permite a comunicação via internet entre diferentes planetas.
     
-    Vários projetos utilizam o IPFS como base para a construção de uma internet cujo endereçamento é feito com base no conteúdo e não na origem do conteúdo. Um arquivo pode residir em diferentes computadores, mas é acessado através de uma hash que representa este arquivo.
+    Vários projetos utilizam o IPFS como base para a construção de uma internet cujo endereçamento é feito com base no conteúdo e não na origem do conteúdo. Um arquivo pode residir em diferentes computadores, mas é acessado através de uma hash que representa este arquivo. Por exemplo, um conteúdo acessado via http, tem a seguinte forma: \textbf{\textit{http://12.34.137.32/monografia.txt}}, o endereçamento equivalente no IPFS seria, por exemplo, \textbf{\textit{/ipfs/GsiInOHOdSINsjSIDs/monografia.txt}}. Neste exemplo, o arquivo \textbf{monografia.txt} faz parte de um diretório raiz. O IPFS gera a hash baseada no conteúdo que deve ser endereçado, usada como forma de abstração a endereços IP.
     
-    Diferentemente do protocolo HTTP, onde o conteúdo é endereçado baseado na sua localidade e tem como principal ponto de falha o servidor que armazena o conteúdo, o IPFS provê o endereço baseado no conteúdo. Cada arquivo é endereçado por uma hash que representa o arquivo, existe apenas uma hash por arquivo e, se um único bit do arquivo for modificado, a hash que representa este arquivo será diferente. O mecanismo de endereçamento do IPFS permite que o conteúdo acessado através da hash seja verificável, o que garante a consistência de arquivos em redes inseguras.
+    Diferentemente do protocolo HTTP, onde o conteúdo é endereçado baseado na sua localidade e tem como principal ponto de falha o servidor que armazena o conteúdo, o IPFS provê o endereço baseado no conteúdo. Cada arquivo é endereçado por uma hash (Merkle link) que representa o arquivo, existe apenas uma hash por arquivo e, se um único bit do arquivo for modificado, a hash que representa este arquivo será diferente. O mecanismo de endereçamento do IPFS permite que o conteúdo acessado através da hash seja verificável, o que garante a consistência de arquivos em redes inseguras.
     
     O armazenamento de arquivos no IPFS é feito com base em arquivos objeto, que são objetos que representam um arquivo. Um objeto-arquivo contém um campo de dados, cujo tamanho máximo é de 256 kilobytes e uma lista de links para outros objetos no IPFS. Arquivos maiores que 256KB são divididos em múltiplas porções e armazenados em diferentes objetos-arquivo. A Figura \ref{fig:arquivo-objeto-ipfs} ilustra este mecanismo.
     
@@ -506,37 +550,106 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
 
 	\subsection{Arquitetura}
 	    
-	    A arquitetura do IPFS sintetiza as principais técnicas de versionamento de distribuição de conteúdo via rede P2P, como a tecnologia do BitTorrent, Git e SFS através de uma DHT. A principal característica deste sistema de arquivos distribuído.
+        A arquitetura do IPFS sintetiza as principais características de Tabelas Hash Distribuídas (DHTs), do BitTorrent que permite o compartilhamento via um sistema P2P, de sistemas de versionamento como o Git que promove um modelo eficiente para acompanhar mudanças em arquivos ao longo do tempo e, por fim, o IPFS é fortemente influenciado por Sistemas de Arquivos Auto-Certificados (SFS), cujo objetivo é disponibilizar cadeias confiáveis de informação ligada e um espaço de nomes global que prioriza a igualdade de participantes na rede \cite{benet2014ipfs}.
+        
+        A seguir será feita uma breve discussão sobre as principais características do IPFS.
     
-    	\subsubsection{Identidade}
+    \subsection{Identidade}
+    	
+    	Participantes da rede do IPFS são chamados de nós e cada nó é reconhecido por uma hash criptográfica gerada a partir da chave publica que é criada a partir do algoritmo S/Kademlia \cite{benet2014ipfs}. Nós armazenam suas chaves pública e privada encriptadas com uma senha. Quando dois nós são conectados, o processo de \textit{handshake} faz uma verificação mútua em ambos nós para estabelecer se a chave pública, quando aplicada no algoritmo de hash, gera o identificador do nó. Caso contrário, a conexão entre os nós é terminada.
+    	
+    	O IPFS suporta múltiplas funções hash, o que permite que o sistema automaticamente identifique a melhor abordagem a ser tomada diante de uma situação, ou seja, o sistema identifica e aplica hashes sob demanda com base na segurança versus performance.
         
-        \subsubsection{Rede}
+    \subsection{Rede}
         
-        \subsubsection{Rotas}
+        No IPFS, nós comunicam-se continuamente com diversos outros nós através de redes internas e da internet. A infraestrutura de rede do IPFS possui as seguintes características:
         
-        \subsubsection{Trocas}
+        \begin{itemize}
+            \item \textbf{Transporte}: é possível usar qualquer protocolo de transporte.
+            \item \textbf{Confiabilidade}: o IPFS provê confiabilidade na informação mesmo que redes subjacentes não possam garantir esta característica, usando o uTP ou SCTP.
+            \item \textbf{Conectividade}: o sistema utiliza técnicas de Estabelecimento Interativo de Conectividade (ICE) e Tradutor de Endereços de Rede (NAT).
+            \item \textbf{Integridade}: o IPFS pode realizar a checagem da integridade de mensagens recebidas utilizando o \textit{checksum} da mensagem.
+            \item \textbf{Autenticidade}: o IPFS pode realizar checagem sobre a autenticidade de mensagens através da chave pública do remetente. Esta característica é opcional pois exige mais energia do computador para realizar as checagens e um alto número de mensagens recebidas podem causar um \textit{overhead} no processamento.
+        \end{itemize}
         
-        \subsubsection{Objetos}
+        O IPFS pode usar qualquer rede para realizar a comunicação, abstraindo o conceito de IP. Isto é alcançado utilizando endereços formatados via \textit{multiaddr}\footnote{Multiaddr é uma especificação para codificar endereços de vários procolos de troca de informações via rede em um único formato. Disponível em: https://multiformats.io/multiaddr/} para redes subjacentes. O uso do \textit{multiaddr} permite inclusive encapsular a troca de informações do IPFS em outros protocolos.
         
-        \subsubsection{Arquivos}
+        \subsection{Roteamento}
         
-        \subsubsection{Sistema de nomes}
+        O roteamento de conexões entre nós do IPFS é efetuado com base em uma DSHT (Distribuited Sloppy Hash Table) no qual é baseada no Coral DSHT \cite{freedman2003sloppy}. A abordagem de DSHT permite que nós possam encontrar outros nós e que seja possível servir objetos na rede de forma eficiente. 
+        
+        O IPFS utiliza DHT somente para armazenar objetos cujo tamanho é de no máximo 1KB, pois esta abordagem é mais eficiente. Para objetos maiores, a DHT armazena os endereços dos nós que contém uma cópia do objeto.
+        
+        Embora o IPFS consiga lidar com hashes distribuídas ao longo da rede via DHT, o sistema consegue se adequar a redes internas, no qual é utilizada uma tabela hash local.
+        
+        \subsection{Troca de blocos}
+        
+        A distribuição de conteúdo no IPFS ocorre via troca de blocos com pares em um protocolo semelhante ao BitTorrent, chamado de BitSwap. Uma semelhança com o BitTorrent é a ação de procurar por blocos, cada par do BitSwap contém uma lista de blocos que devem ser adquiridos (\textit{want list}) e uma lista de blocos que o bloco obtém (\textit{have list}). Na forma de execução, o BitSwap vai além e efetua a comunicação entre pares na rede que, inclusive, podem não conter os blocos que um par deseja no momento. Os pares que compõe a rede do IPFS trabalham em conjunto para dar o suporte a rede e permitir a avaliabilidade dos blocos através da rede.
+        
+        A característica de cooperação dos nós no IPFS pode ser sobrescrita para que haja uma forma de trocas de valores monetários digitais entre pares para garantir que um determinado conteúdo permaneça disponível na rede, como um arquivo de texto ou uma página web. O Filecoin possui esta estratégia, onde provê uma prova de armazenamento que garante que um determinado conteúdo estará disponível no IPFS mesmo que o o par que deu origem a aquele conteúdo esteja fora da rede. Isto acontece transferindo fundos para pares armazenarem arquivos. A discussão sobre usos do Filecoin limitam-se a este escopo pois não faz parte deste trabalho uma análise sobre as características do Filecoin.
+        
+        A especificação completa do BitSwap pode ser acompanhada no trabalho de Banet, onde o IPFS é definido \cite{benet2014ipfs}.
+        
+        \subsection{Objetos}
+        
+        Sobre a infraestrutura promovida pela DHT e o protocolo de trocas de blocos, BitSwap, é implementado um grafo acíclico Merkle distribuído - Merkle DAG, onde os links para estes objetos são representados por hashes criptográficas. Esta forma de operação do IPFS é uma generalização da forma com que os dados são organizados no Git. São propriedades que o uso de Merkle DAGs traz ao IPFS:
+        
+        \begin{itemize}
+            \item \textbf{Endereçamento de conteúdo:} Qualquer conteúdo é identificado com uma hash única seguindo o padrão \textit{multihash}.
+            \item \textbf{Resistência a sabotagem:} Todo conteúdo é verificado, ou seja, o IPFS consegue identificar se algum conteúdo for sabotado ou corrompido.
+            \item \textbf{Não duplicação de dados:} Objetos que contém exatamente o mesmo conteúdo, possuem hashes exatamente iguais.
+        \end{itemize}
+        
+        Um objeto no IPFS é composto por uma lista de links e uma quantidade de bytes, assim como observado na Figura \ref{fig:arquivo-objeto-ipfs}. Links são uma estrutura de dados composta por nome no formato texto, uma hash criptográfica no formato \textit{multihash} que representa o objeto alvo e, por fim, contém a informação sobre o tamanho do objeto em bytes.
+        
+        A estrutura de objetos no IPFS proporciona alta flexibilidade para armazenar, com versionamento, qualquer tipo de dado, inclusive de forma recursiva. Armazenamento de dados recursivo proporciona a organização de objetos em diretórios e diretórios do IPFS podem ser montados no sistema de arquivos do computador hospedeiro.
+        
+        Diretórios no IPFS funcionam da mesma forma como em sistemas de arquivos UNIX. Caminhos de arquivos e diretórios no IPFS possuem a seguinte forma: \textbf{/ipfs/<hash-do-objeto>/<caminho-do-objeto>}. Um exemplo mais realista é: \textbf{/ipfs/QmXhZVm7...sHJ/folder/foo/bar.txt}.
+        
+        \subsection{Arquivos}
+        
+        A especificação do IPFS define quatro tipo de objetos para ajudar na modelagem do sistema de arquivos versionado com base no Merkle DAG. Estes objetos são:
+        
+        \begin{itemize}
+            \item \textbf{Block:} bloco de dados de tamanho variável.
+            \item \textbf{List:} coleção de blocos e outras listas.
+            \item \textbf{Tree:} coleção de blocos, listas e outras árvores.
+            \item \textbf{Snapshot:} um recorte atual sobre a versão atual da árvore.
+        \end{itemize}
+        
+        Estes objetos do IPFS utilizam as mesmas definições dos objetos definidos no Git, com a adição de características para que sejam eficazes em um ambiente distribuído: busca rápida por tamanho de arquivos, não duplicação de arquivos grandes e adição de objetos \textbf{commit} em objetos \textbf{tree}. 
+        
+        \subsection{Sistema de nomes}
+        
+        A natureza do endereçamento de conteúdo no IPFS traz consigo um fator importante: objetos são permanentemente imutáveis. E existem propriedades importantes do IPFS que garantem o funcionamento do sistema baseado nesta premissa: objetos podem ser acessados por sua hash, podem ter sua integridade checada, podem ser ligados a outros objetos e armazenado indefinidamente.
+        
+        O IPFS resolve o problema da mutabilidade de objetos através de um espaço de nomes mutável - InterPlanetary Name System (IPNS). Este mecanismo é baseado em nomes auto-certificados globalmente, onde o estado global é mutável. Este esquema 
+        
+        \begin{enumerate}
+            \item Solicitação do identificador do nó.
+            \item O nó é assinado globalmente como: \textbf{/ipns/<id-do-nó>} e o identificador do nó funciona como uma espécie de diretório onde os objetos do usuário podem ser adicionados.
+            \item Um usuário pode publicar objetos neste diretório assinado por sua chave privada.
+            \item Outros nós podem solicitar o objeto e podem checar a validade do objeto utilizando a chave publica do nó.
+        \end{enumerate}
+        
+        Em situações onde é necessário o uso de um espaço de nomes mutável, o IPNS pode cumprir esta tarefa, onde o objeto imutável é adicionado no IPFS e ligado ao espaço de nomes do nó, que é mutável. 
+        
     
     \subsection{Limitações}
     
-    Um dos principais problemas do IPFS está na sua natureza. Por ser um sistema de arquivos imutável, qualquer conteúdo adicionado ao IPFS permanecerá no IPFS enquanto houver alguma réplica daquele conteúdo existindo em algum nó participante. Conteúdos digitais protegidos por direitos autorais não podem ser censurados a menos que todos os nós que armazenam uma cópia do arquivo sejam derrubados.
+    Um dos principais problemas do IPFS está na sua natureza. Por ser um sistema de arquivos imutável, qualquer conteúdo adicionado ao IPFS permanecerá no IPFS enquanto houver alguma réplica daquele conteúdo existindo em algum nó participante. Embora que o IPFS não faça backup automático de arquivos da rede, conteúdos digitais protegidos por direitos autorais não podem ser censurados a menos que todos os nós, ou seja, os participantes do IPFS, que armazenam uma cópia do arquivo sejam derrubados.
     
     Além da censura de conteúdo, o acesso a arquivos presentes no IPFS ainda é difícil para os usuários em geral por conta da natureza do IPFS. Embora uma página web estática possa ser armazenada completamente no IPFS, o acesso a essa página pelo navegador exige o uso de uma camada de software capaz de interconectar o protocolo do IPFS com o protocolo HTTP. Para tal, existe o serviço de nomes - IPNS que lida com esta tarefa.
     
     O IPFS não executa ações sem que o usuário invoque-as explicitamente. Todo conteúdo deve ser replicado manualmente ou por algum processo automático de replicação. Protocolos desenvolvidos com base no IPFS, como o Filecoin, conseguem efetuar a replicação do conteúdo automaticamente \cite{jbenet47issue}.
     
     Outro problema que o IPFS enfrenta é a disponibilização de conteúdo. Se dois nós armazenam um determinado conteúdo e se, em algum instante de tempo, ambos os nós estiverem desconectados da rede do IPFS, o conteúdo estará indisponível para qualquer usuário que tente acessá-lo. O Filecoin é uma iniciativa para promover que nós armazenem arquivos em troca de uma moeda virtual \cite{protocollabs}, entretanto ainda está disponível apenas em modo ICO - \textit{Initial Coin Offering}.
-    
-    O IPFS consegue ser um substituto completo do protocolo HTTP, entretanto não há um equivalente ao protocolo HTTPS, ou seja, na versão atual o IPFS não lida com certificados 
         
 %=====================================================%
 
-\chapter{Modelagem}
+\chapter{Modelagem}\label{chap:modelagem}
+
+    A identificação de usuários em um sistema é um tópico já discutido neste trabalho, é resolvido de inúmeras formas utilizando abordagens em sistemas centralizados. Tentativas de solucionar este problema de forma decentralizada são atuais, o sistema da identificação estoniano, que é uma inspiração deste trabalho, é uma forma. Outra foi discutida por Thakur em sua tese de mestrado. Este capítulo condensa a versão preliminar do sistema de identificação proposto neste trabalho. \ref{anexo:anexo-a}
 
 %=====================================================%
 %              Fim da monografia parcial              %
@@ -565,13 +678,9 @@ O aumento no uso e desenvolvimento de dispositivos IoT, em que muitas vezes faze
 
 % Anexos (Opcional)
 \annex
-\chapter{Tabela de taxas por instrução}\label{annx:taxas-por-instrução}
 
-[listagem das taxas por instrução]
-
-\chapter{Árvore Merkle Patricia}\label{annx:arvore-merkle-patricia}
-
-\section{Versão modificada do Ethereum}
+% \input{anexoA.tex}\label{anexo:anexo-a}
+% \input{anexoB.tex}\label{anexo:anexo-b}
 
 \end{document}
 
