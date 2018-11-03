@@ -5,6 +5,15 @@
 \usepackage[T1]{fontenc}
 \usepackage{listings} % para inserir trechos de código
 
+
+\lstset{ 
+  backgroundcolor=\color{white},
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  numbers=left,
+  captionpos=b
+}
+
 \hypersetup{
     hidelinks, % Remove coloração e caixas
     unicode=true,   %Permite acentuação no bookmark
@@ -16,7 +25,7 @@
 \nomecurso{Bacharelado em Engenharia de Computação}
 \titulocurso{Bacharel em Engenharia de Computação}
 
-\title{Proposta de exploração da plataforma Ethereum como base a aplicações em Fog Computing}
+\title{Proposta de um Conjunto de Protocolos para Identificação Descentralizada de Pessoas}
 
 \author{Santos}{Gustavo Fernandes dos}
 \advisor[Prof.~Dra.]{Reiser}{Renata Hax Sander}
@@ -24,18 +33,42 @@
 %\collaborator[Prof.~Dr.]{Aguiar}{Marilton Sanchotene de}
 
 %Palavras-chave em PT_BR
-\keyword{ethereum}
-\keyword{blockchain}
-\keyword{internet das coisas}
-\keyword{computação na borda}
+\keyword{Ethereum}
+\keyword{Blockchain}
+% \keyword{}
+% \keyword{computação}
 
 %Palavras-chave em EN_US
-\keywordeng{ethereum}
-\keywordeng{blockchain}
-\keywordeng{internet-of-things}
-\keywordeng{edge computing}
+\keywordeng{Ethereum}
+\keywordeng{Blockchain}
+% \keywordeng{internet-of-things}
+% \keywordeng{edge computing}
 
 \begin{document}
+
+% Altera o nome padrão do rótulo usado no comando \autoref{}
+\renewcommand{\lstlistingname}{Código}
+
+% Altera o rótulo a ser usando no elemento pré-textual "Lista de código"
+\renewcommand{\lstlistlistingname}{Lista de códigos}
+
+% Configura a ``Lista de Códigos'' conforme as regras da ABNT (para abnTeX2)
+\begingroup\makeatletter
+\let\newcounter\@gobble\let\setcounter\@gobbletwo
+  \globaldefs\@ne \let\c@loldepth\@ne
+  \newlistof{listings}{lol}{\lstlistlistingname}
+  \newlistentry{lstlisting}{lol}{0}
+\endgroup
+
+\renewcommand{\cftlstlistingaftersnum}{\hfill--\hfill}
+
+\let\oldlstlistoflistings\lstlistoflistings
+\renewcommand{\lstlistoflistings}{%
+   \begingroup%
+   \let\oldnumberline\numberline%
+   \renewcommand{\numberline}{\lstlistingname\space\oldnumberline}%
+   \oldlstlistoflistings%
+   \endgroup}
 
 \renewcommand{\advisorname}{Orientadora}           %descomente caso tenhas orientadora
 %\renewcommand{\coadvisorname}{Coorientadora}      %descomente caso tenhas coorientadora
@@ -47,47 +80,41 @@
 
 \sloppy
 
-\fichacatalografica
+% \fichacatalografica
 
-\folhadeaprovacao
-
-%Opcional
-\begin{dedicatoria}
-  Dedico\ldots bla blabla blablabla bla. Bla blabla blablabla bla.\\
-  Bla blabla blablabla bla. Bla blabla blablabla bla.
-\end{dedicatoria}
+% \folhadeaprovacao
 
 %Opcional
-\begin{agradecimentos}
-  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla
-  bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla
-  blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla
-  blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.
-  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla
-  bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla
-  blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla
-  blabla blablabla bla.  Bla blabla blablabla bla.
-\end{agradecimentos}
+% \begin{dedicatoria}
+%   Dedico\ldots bla blabla blablabla bla. Bla blabla blablabla bla.\\
+%   Bla blabla blablabla bla. Bla blabla blablabla bla.
+% \end{dedicatoria}
 
 %Opcional
-\begin{epigrafe}
-  Bla blabla blablabla bla.\\
-  Bla blabla blablabla bla.\\
-  Bla blabla blablabla bla.\\
-  Bla blabla blablabla bla.\\
-  Bla blabla blablabla bla.\\
-  {\sc --- Fulano de Tal}
-\end{epigrafe}
+% \begin{agradecimentos}
+%   Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla blablabla
+%   bla.  Bla blabla blablabla bla.  Bla blabla blablabla bla.  Bla blabla
+%   blablabla bla.  
+% \end{agradecimentos}
+
+%Opcional
+% \begin{epigrafe}
+%   Bla blabla blablabla bla.\\
+%   Bla blabla blablabla bla.\\
+%   Bla blabla blablabla bla.\\
+%   Bla blabla blablabla bla.\\
+%   Bla blabla blablabla bla.\\
+%   {\sc --- Fulano de Tal}
+% \end{epigrafe}
 
 %Resumo em Portugues (no maximo 500 palavras)
 \begin{abstract}
-  resumo
+    Este trabalho tem como objetivo principal a exploração da capacidade de computação do Ethereum para a identificação, autorização e autenticação de usuários de forma decentralizada e segura. Sistemas descentralizados confiáveis promovem uma forma de garantia quanto a segurança e integridade de informações, sem que haja uma entidade que atua como principal intermediador, um sistema descentralizado realiza tarefas de consenso para promover a segurança das informações.  Os resultados esperados deste trabalho são uma análise quanto a capacidade da plataforma em lidar o gerenciamento de usuários e, uma prova de conceito que demonstra a capacidade da plataforma.
 \end{abstract}
 
 \begin{englishabstract}%
-  {Titulo do Trabalho em Inglês}
+  {Propouse of a Decentralized System for Document Organization, Identification, Authentication and Authorization of users based in the Ethereum Platform}
   
-	abstract
 \end{englishabstract}
 
 %Lista de Figuras
@@ -96,8 +123,13 @@
 %Lista de Tabelas
 \listoftables
 
+%Lista de Códigos
+\lstlistoflistings
+
 %lista de abreviaturas e siglas
 \begin{listofabbrv}{SPMD}
+    \item[ABI] Application Binary Interface
+    \item[API] Application Protocol Interface
     \item[dBFT] Delegated Byzantine Fault Tolerance
     \item[BFT] Byzantine Fault Tolerance
     \item[BGP] Byzantine Generals Problem
@@ -105,14 +137,19 @@
     \item[DHT] Distributed Hash Table
     \item[DSHT] Distributed Sloppy Hash Table 
     \item[DLT] Distributed Ledger Technology
+    \item[ECC] Ellipc Curve Cryptography Algorithm
     \item[EUA] External User Account 
+    \item[IDE] Integrated Development Environment
     \item[IOT] Internet of Things
     \item[IPFS] InterPlanetary File System
     \item[IPNS] InterPlanetary Name System
     \item[KEC] Keccak
     \item[MPT] Merkle Patricia Tree
+    \item[PoA] Proof of Authority
     \item[PoS] Proof of Stake
     \item[PoW] Proof of Work
+    \item[RPC] Remote Procedory Call
+    \item[RSA] 
 \end{listofabbrv}
 
 %Sumario
@@ -120,7 +157,11 @@
 
 \chapter{Introdução}\label{chap:introducao}
 
-    Um marco para a economia foi o desenvolvimento de formas de monetização digital. O primeiro indício da "era das moedas digitais" foi através de David Chaum, que propôs a ideia de dinheiro virtual em 1983 \cite{chaum1983blind}. A ideia de Chaum era a criação de uma moeda criptográfica capaz de servir para pagamentos ao mesmo tempo em que as partes envolvidas são anônimas, para isto, Chaum elegeu três propriedades fundamentais para que sua moeda virtual seja viável: 
+    % Desde os primordios da civilização os humanos trocam coisas. A primeira forma de economia foi o escambo: trocas de mercadorias entre os participantes de uma sociedade rudimentar. Pessoas trocavam, por exemplo, tomates por laranjas, batatas por botas, entre outras trocas, o serviço sexual por mercadorias. A prostituição foi a primeira forma de prestação de serviços desenvolvida por humanos.
+    
+    % Entretanto, o escambo é uma péssima forma econômica de trocas
+
+    Um marco para a economia foi o desenvolvimento de formas de monetização digital. O primeiro indício da "era das moedas digitais" foi através de David Chaum, que propôs a ideia de dinheiro virtual em 1983 \cite{chaum1983blind}. A ideia de Chaum era a criação de uma moeda criptográfica capaz de servir para pagamentos ao mesmo tempo em que as partes envolvidas permanecem anônimas, para isto, Chaum elegeu três propriedades fundamentais para que sua moeda virtual seja viável: 
 	
 	\begin{itemize}
 	    \item Inabilidade de terceiros rastrear quem, quando e a quantidade de valor transferido entre os envolvidos;
@@ -128,7 +169,7 @@
 	    \item Habilidade de parar a movimentação de valores em caso de fraude.
 	\end{itemize}
 	
-	Esta idealização rudimentar de dinheiro virtual era capaz de prover anonimidade entre os envolvidos, mas foi desastroso por centralizar as operações.
+	Esta idealização rudimentar de dinheiro virtual era capaz de prover anonimidade entre os envolvidos, mas foi desastroso por centralizar as operações. O detentor das transações poderia adulterá-las e não havia nada que os participantes pudessem fazer para evitar isso, a não ser, não utilizar a moeda idealizada por Chaum.
 	
 	A primeira manifestação de uma moeda virtual que realizava prova de trabalho para comprovar a autenticidade de transações entre usuários foi o \textit{B-Cash} definido por Wei Dai, entretanto o seu trabalho não é claro sobre o mecanismo por trás da prova de trabalho \cite{buterin2014next}. Adam Back propôs mais tarde o \textit{HashCash} que usava o método de resolução de enigmas para dar suporte ao valor monetário da moeda \cite{back2002hashcash}, entretanto a definição do \textit{HashCash} peca na veracidade sobre o que é definido e o que é de fato implementado.
 	
@@ -147,11 +188,13 @@
         \label{fig:blockchain-basica}
     \end{figure}
     
+    A arquitetura da \bchain, assim como listas ligadas, tem inicio através de um bloco inicial, chamado de \textit{genesis}. Os demais blocos que compõem uma \bchain consistem basicamente de duas partes: dados de transações e uma hash. Dados de transações consistem em informações que os participantes inserem na \bchain e a hash é uma referência ao bloco diretamente anterior ao bloco atual.
+    
     Uma das principais características do Bitcoin é decentralizar o registro de blocos onde cada participante da rede armazene todo o registro da \bchain. Assim, enquanto houver ao menos um participante na rede, a \bchain poderá ser recuperada e a rede restaurada.
     
     Qualquer participante pode participar da rede, então qualquer participante pode adicionar transações ao livro publico, ou seja, qualquer participante pode adicionar transações à \bchain. Esta característica promove que qualquer participante possa provar a validade de um bloco, entretanto, apenas o primeiro participante capaz de validar corretamente o bloco, ou seja, quando algum participante encontrar o número mágico, quando adicionado ao bloco e calculada a hash do bloco onde os primeiros dígitos são zero, este participante ganha o direito de enviar uma mensagem de \textit{broadcast} a todos os nós e anunciar que um bloco foi provado quanto sua validade e foi adicionado a \bchain.
     
-    O processo de encontrar o número mágico é chamado de mineração. A dificuldade em minerar um bloco da \bchain regula a velocidade em que novos blocos são adicionados. Em sistemas cujo há um valor monetário associado, a mineração é a única forma de gerar frações da moeda virtual associada ao sistema e, estas frações são direcionadas ao participante que concluiu a verificação da validade do bloco. O Bitcoin aumenta a dificuldade para provar a validade de um bloco a cada [[[ x ]]] blocos gerados, o Ethereum aumenta a dificuldade da geração de novos blocos dinamicamente, baseado na carga sob o sistema. A Figura \ref{fig:historico-dificuldade-ethereum} mostra o histórico da dificuldade em gerar novos blocos no Ethereum \cite{team2017etherscan}.
+    O processo de encontrar o número mágico é chamado de mineração. A dificuldade em minerar um bloco da \bchain regula a velocidade em que novos blocos são adicionados. Em sistemas cujo há um valor monetário associado, a mineração é a única forma de gerar frações da moeda virtual associada ao sistema e, estas frações são direcionadas ao participante que concluiu a verificação da validade do bloco. O Ethereum aumenta a dificuldade da geração de novos blocos dinamicamente, baseado na carga sob o sistema. A Figura \ref{fig:historico-dificuldade-ethereum} mostra o histórico da dificuldade em gerar novos blocos no Ethereum \cite{team2017etherscan}.
     
     \begin{figure}[h!]
         \centering
@@ -171,30 +214,9 @@
     
 	Nota-se na Figura \ref{fig:historico-blocktime-ethereum} que, mesmo com o aumento constante da dificuldade em minerar novos blocos, o tempo médio para gerar um novo bloco mantém-se constante.
 	
-	[conectar as duas partes]
+	A centralização da informação é, além de um mecanismo de otimização de recursos de desenvolvimento, uma forma arquitetural no desenvolvimento de sistemas. Sistemas centralizados são fáceis e baratos de serem desenvolvidos, porém, além de serem caros para manter, sofrem de um problema crítico: possuem uma unidade central que não pode falhar. Uma falha catastrófica do sistema inviabiliza o seu uso, entretanto ataques maliciosos como ataques de negação de serviço podem comprometer o sistema sem que haja uma falha no sistema.
 	
-	A centralização da informação é, além de um mecanismo de otimização de recursos, uma forma arquitetural no desenvolvimento de sistemas. Sistemas centralizados são fáceis e baratos de serem desenvolvidos, porém sofrem de um problema crítico: possuem uma unidade central que não pode falhar. Uma falha catastrófica do sistema inviabiliza o seu uso, entretanto ataques maliciosos como ataques de negação de serviço podem comprometer o sistema sem que haja uma falha no sistema.
-	
-    Sistemas decentralizados não possuem um único ponto de falha, uma vez que a informação é distribuída ao longo da rede, tornando-os resistentes a falhas de múltiplos nós e ataques maliciosos por natureza. Uma arquitetura decentralizada completa deve conter três unidades básicas para o seu funcionamento: unidade de processamento, unidade de armazenamento e uma unidade de troca de mensagens. O Ethereum provê as três características necessárias, entretanto um estudo aprofundado sobre a viabilidade e formas de otimização é necessário, uma vez que a computação, no Ethereum, exige um preço. Na proposta deste trabalho, o estudo concentra-se em usar o Ethereum como unidade de processamento e o IPFS como unidade de armazenamento.
-    
-    A arquitetura da \bchain tem inicio pelo bloco primordial, chamado de \textit{genesis}. Os demais blocos que compõem uma \bchain consistem basicamente de duas partes: dados de transações e uma hash. Dados de transações consistem em informações que os participantes inserem na \bchain e a hash é uma referência ao bloco diretamente anterior ao bloco atual, é um dado gerado durante o processo de mineração.
-	
-	[falar como o ethereum pode ajudar neste caso]
-	
-	[falar sobre iot]
-	
-	[falar sobre fog computing, iot e porque usar o ethereum nessa área]
-	
-	Este trabalho utiliza exclusivamente as capacidades do Ethereum em servir como plataforma de desenvolvimento. Embora que o Ethereum tenha um valor econômico e seja utilizado como moeda de troca, este trabalho não visa qualquer estudo nesta área. 
-	
-	--------------------
-	
-	Ethereum é uma plataforma que tem como base uma \bchain onde pessoas podem escrever programas, compilar, embarcar os  programas em transações e envia-los como parte de uma transação.
-	
-	Ethereum 
-	
-	
-	--------------------
+    Sistemas descentralizados não possuem um único ponto de falha, uma vez que a informação é distribuída ao longo da rede, tornando-os resistentes a falhas de múltiplos nós e ataques maliciosos por natureza. Uma arquitetura decentralizada completa deve conter três unidades básicas para o seu funcionamento: unidade de processamento, unidade de armazenamento e uma unidade de troca de mensagens. O Ethereum provê as três características necessárias, entretanto um estudo aprofundado sobre a viabilidade e formas de otimização é necessário, uma vez que a computação, no Ethereum, exige um preço. Na proposta deste trabalho, o estudo concentra-se em usar o Ethereum como unidade de processamento e o IPFS como unidade de armazenamento.
 	
 \section{Motivação}\label{sc:motivacao}
 
@@ -207,6 +229,8 @@
     Este trabalho busca uma forma de digitalizar o processo de identificação de atores, cujo objetivo é um sistema livre de duplicação de dados, acessível e seguro, definido e implementado sob a plataforma Ethereum.
     
     Um problema que este trabalho busca solucionar é o da recuperação de chaves. Um usuário identificado possui um par de chaves, uma pública e uma privada, respeitando o sistema simétrico de criptografia. Um usuário pode assinar um documento, autorizar o acesso aos seus dados e acessar suas informações utilizando seu par de chaves. Contudo, em um cenário realista, pessoas esquecem de suas senhas e, manter informações decentralizadas, imutáveis e passíveis de serem recuperadas é um desafio.
+    
+    Protocolo Scuttlebutt \cite{vanRenesse:2008:ERF:1529974.1529983}.
 	
 \section{O Problema do Consenso}\label{sc:problema-do-consenso}
 
@@ -216,7 +240,7 @@
         
     \subsection{O Problema dos Generais Bizantinos}\label{ssc:bgp}
     
-    O problema dos generais bizantinos - \textit{Byzantine General Problem} (BGP) consiste em nós - generais, que podem trocar informações válidas ou não com outros nós. O BGP é um problema clássico de sistemas distribuídos e existem diversas soluções para este problema, \cite{coulouris} apresenta algumas para sistemas decentralizados.
+    O problema dos generais bizantinos - \textit{Byzantine General Problem} (BGP) consiste em nós - generais, que podem trocar informações válidas ou não com outros nós. O BGP é um problema clássico de sistemas distribuídos e existem diversas soluções para este problema, \cite{coulouris} apresenta algumas para sistemas descentralizados.
     
     \subsection{Tolerância a Falha Bizantina}\label{ssc:bft}
     
@@ -238,13 +262,28 @@
     
 \section{O Problema dos 51\%}
 
+    O problema dos 51\% é um problema que surgiu com o Bitcoin e afeta todas as redes públicas baseadas em blockchain que utilizam PoW como algoritmo de consenso. As criptomoedas dependem de nós mineradores para que minerem blocos e aceitem transações e todos os nós que executam o processo de mineração, também participam do processo de consenso. O problema configura-se quando um participante ou um grupo de participantes controla 51\% ou mais da rede.
     
+    Quando um participante controla 51\% ou mais da rede, ele pode forjar transações e valida-las antes que o resto da rede identifique que as transações são inválidas. Como os blocos que são válidos são adicionados na blockchain cuja prova de trabalho é maior, um participante que tenha 51\% ou mais poder de processamento quando comparado ao restante da rede, pode validar os blocos com transações invalidas e, automaticamente, os demais participantes tornarão a ramificação forjada da blockchain válida, onde serão adicionados novos blocos minerados.
+    
+    O panorama atual do Bitcoin oferece um certo risco aos participantes mais conservadores, uma vez que o grupo composto pelos centros de mineração BTC.com, AntPool, SlushPool e ViaBTC concentram 59\% da força de mineração do Bitcoin. A Figura \ref{fig:pools-bitcoin} mostra uma estimativa da concentração de mineradores e a porcentagem de blocos minerados por estes mineradores.
+    
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=17cm]{imagens/pools-bitcoin.png}
+        \caption{Estimativa da distribuição de mineração entre as maiores centros mineradores de Bitcoin \cite{blockchain2018}.}
+        \label{fig:pools-bitcoin}
+    \end{figure}
+    
+    Se o grupo de mineradores identificado anteriormente resolver forjar transações em conjunto, eles poderão e não há nada que outros mineradores possam fazer. Algumas moedas digitais já sofreram com este tipo de ataque, recentemente o Bitcoin Gold sofreu um ataque de 51\% e uma empresa de troca de moedas teve perda estimada em 18 milhões de dólares americanos\footnote{http://fortune.com/2018/05/29/bitcoin-gold-hack/ - Acessado em Julho de 2018.}
+    
+    É praticamente impossível de um participante isoladamente executar um ataque do de 51\% em uma rede grande como o Bitcoin ou Ethereum. A ferramenta \textit{Cost Of A 51\% Attack} mostra, dentre outras informações, que é necessário cerca de 7 bilhões de dólares americanos\footnote{https://gobitcoin.io/tools/cost-51-attack/ - Acessado em Julho de 2018} para a construção de um centro de mineração capaz de realizar mais processamento que a metade da rede do Bitcoin. O \textit{Coast Of A 51\% Attack} também traz informações importantes sobre o consumo de energia de um centro de processamento deste tipo: seriam consumidos aproximadamente 97 milhões de quilowatts por hora, a um custo de 4,8 milhões de dólares por dia.
 
 \section{Organização da Monografia}\label{sc:organizao-da-monografia}
     
     Nesta monografia são utilizados vários termos em inglês; a opção por manter os nomes originais vem da premissa de que esta área de pesquisa é recente e existem muitos estudos na língua inglesa. Manter palavras chave em inglês proporciona maior integração entre trabalhos de diferentes autores, facilitando a integração de conceitos.
     
-    A Sessão \ref{ssc:trabalhos-relacionados} contém uma seleção de trabalhos importantes relacionados com a arquitetura em \bchain, Ethereum,  e sistemas decentralizados. A revisão técnica das ferramentas utilizadas neste trabalho é feita no Capítulo \ref{chap:revisao-tecnica}, que contém uma descrição técnica do Ethereum como unidade de computação e IPFS como unidade de armazenamento. O Capítulo \ref{chap:modelagem} contém a modelagem preliminar para a resolução do problema proposto neste trabalho.
+    A Sessão \ref{ssc:trabalhos-relacionados} contém uma seleção de trabalhos importantes relacionados com a arquitetura em \bchain, Ethereum,  e sistemas descentralizados. A revisão técnica das ferramentas utilizadas neste trabalho é feita no Capítulo \ref{chap:revisao-tecnica}, que contém uma descrição técnica do Ethereum como unidade de computação e IPFS como unidade de armazenamento. O Capítulo \ref{chap:modelagem} contém a modelagem preliminar para a resolução do problema proposto neste trabalho.
     
     % Este trabalho inclui alguns anexos úteis para o melhor entendimento da plataforma Ethereum. O Anexo \ref{annx:taxas-por-instrução} contém uma relação com as taxas em unidades de Wei por operação na execução de programas no Ethereum, já o Anexo \ref{annx:arvore-merkle-patricia} contém uma descrição quanto sobre a árvore Merkle Patrícia, que é a estrutura de dados fundamental para a execução do Ethereum.
 
@@ -295,7 +334,7 @@
     
     Outra característica do IOTA é a sua função hash, o Curl-P. Segundo a equipe do IOTA, o Curl-P é um algoritmo de geração de hashes que possui imunidade quântica. Entretanto, o algoritmo Curl, versão anterior ao Curl-P, já foi demonstrado que possui falhas criptográficas, permitindo que transações sejam adulteradas \cite{heilman} e a equipe do IOTA encoraja que uma assinatura não seja usada mais que uma vez no algoritmo Curl-P, devido a natureza da função hash definida \cite{teamiota}.
     
-    O IOTA é uma plataforma que trouxe diferentes visões arquiteturais sobre sistemas decentralizados que possuem um ativo digital envolvido e que permitem o desenvolvimento de aplicações decentralizadas. A principal característica do IOTA é a simplicidade do protocolo, que promove o uso em dispositivos de baixo consumo de energia.
+    O IOTA é uma plataforma que trouxe diferentes visões arquiteturais sobre sistemas descentralizados que possuem um ativo digital envolvido e que permitem o desenvolvimento de aplicações decentralizadas. A principal característica do IOTA é a simplicidade do protocolo, que promove o uso em dispositivos de baixo consumo de energia.
     
 \chapter{Revisão Técnica}\label{chap:revisao-tecnica}
 
@@ -367,7 +406,7 @@
 	
 	\subsection{O Bloco}
 	
-	O bloco é componente primordial em sistemas baseados em \bchain, no contexto do Ethereum, um bloco consiste em um cabeçalho e uma sequência de transações. Em um sistema decentralizado, é necessário combinar um sistema de transições com um sistema de consenso para garantir que todos os participantes concordam com as transações realizadas.
+	O bloco é componente primordial em sistemas baseados em \bchain, no contexto do Ethereum, um bloco consiste em um cabeçalho e uma sequência de transações. Em um sistema descentralizado, é necessário combinar um sistema de transições com um sistema de consenso para garantir que todos os participantes concordam com as transações realizadas.
 	
 	Embora a \bchain do Ethereum seja muito semelhante a \bchain do Bitcoin, existem algumas diferenças. A principal diferença é que cada bloco que compõe a \bchain do Ethereum possui uma cópia da lista de transações e uma cópia do estado mais recente do sistema.
 	
@@ -647,25 +686,494 @@
         
 %=====================================================%
 
-\chapter{Modelagem}\label{chap:modelagem}
-
-    A identificação de usuários em um sistema é um tópico já discutido neste trabalho, é resolvido de inúmeras formas utilizando abordagens em sistemas centralizados. Tentativas de solucionar este problema de forma decentralizada são atuais, o sistema da identificação estoniano, que é uma inspiração deste trabalho, é uma forma. Outra foi discutida por Thakur em sua tese de mestrado. Este capítulo condensa a versão preliminar do sistema de identificação proposto neste trabalho. \ref{anexo:anexo-a}
-
 %=====================================================%
 %              Fim da monografia parcial              %
 %=====================================================%
 
-% \chapter{Desenvolvimento}
+%=====================================================%
+
+\chapter{Modelagem e Arquitetura}\label{chap:modelagem}
+
+    Este trabalho se preocupa em realizar o procedimento de autenticação de usuários sem a necessidade de uma unidade central, de forma segura, eficiente e distribuída.
+    
+    Na proposta a seguir é levado em consideração uma arquitetura composta por autoridades e usuários. Autoridades são contratos digitais com capacidade de realizar operações que usuários não podem realizar. Operações críticas de registro de usuário, por exemplo, são realizadas perante autoridades. 
+    
+    Um conceito que é utilizado ao longo dos próximos parágrafos é o de dispositivos de segurança. Neste trabalho dispositivos de segurança são smartphones, tablets ou computadores. São dispositivos munidos de um sistema operacional capaz de executar um programa que se conecta a blockchain e ao IPFS para realizar transações. O mecanismo proposto é a existência de um aplicativo que gera um par de chaves assimétricas e, a chave pública é armazenada no contrato digital de usuário e a chave privada é armazenada localmente, criptografada utilizando o algoritmo de criptografia AES através do código numérico de 6 dígitos e armazenada localmente no dispositivo.
+    
+    O sistema criptográfico utilizado para a geração de senhas é o algoritmo de criptografia de curva elíptica - ECC. O motivo por traz do uso deste algoritmo criptográfico é que, segundo \cite{Kapoor:2008:ECC:1386853.1378356}, chaves assimétricas geradas através do algoritmo de criptografia de curva elíptica precisam de uma quantidade menor e bits para representar chaves cuja segurança é equivalente a um par de chaves gerado pelo algoritmo RSA. A Tabela \ref{tab:relacao-rsa-ecc} mostra uma relação entre a dificuldade em quebrar uma chave privada com o tamanho da chave nos algoritmos RSA e ECC que considera um processador de arquitetura MIPS.
+    
+    \begin{table}[]
+        \begin{tabular}{c | c | c}
+            \begin{tabular}[c]{@{}c@{}}Tempo para quebrar\\ (em anos)\end{tabular} & \begin{tabular}[c]{@{}c@{}}RSA\\ (tamanho da chave em bits)\end{tabular} & \begin{tabular}[c]{@{}c@{}}ECC\\ (tamanho da chave em bits)\end{tabular} \\
+            \hline
+            $10^4$ & $512$ & $106$ \\
+            $10^8$ & $768$ & $132$ \\
+            $10^{11}$ & $1024$ & $160$ \\
+            $10^{20}$ & $2048$ & $210$ \\
+            $10^{78}$ & $21000$ & $600$
+        \end{tabular}
+        \caption{Relação entre o tamanho de chave e o tempo necessário para quebra-la.}
+        \label{tab:relacao-rsa-ecc}
+    \end{table}
+    
+    O trabalho de \cite{Kapoor:2008:ECC:1386853.1378356} também mostra que o algoritmo ECC é mais veloz que o RSA para efetuar a geração de chaves, assinatura e verificação. Algoritmos do tipo ECC são utilizados no universo de moedas criptográficas, o Ethereum utiliza uma versão do ECC chamada de ECDSA \cite{wood2014ethereum}.
+
+    \section{Protocolos}
+    
+    Registrar pessoas deve ser um procedimento que ofereça segurança sem a necessidade de haver confiança em uma empresa privada ou órgão governamental sobre a segurança dos dados dos usuários quanto o acesso não autorizado. Entretanto o processo de registro de usuários na blockchain atualmente exige que usuários possuam um conhecimento técnico sobre o funcionamento da blockchain, como endereços hexadecimais, carteiras, balanço de \textit{tokens}, entre outras características.
+    
+    O Secure Scuttlebot, embora não utilize nenhuma tecnologia baseada em blockchain, exige que o usuário possua um perfil atrelado a um dispositivo, com uma assinatura digital e um par de chaves gerado automaticamente em cada dispositivo. O par de chaves são as credenciais necessárias para identificar o usuário no procolo que o Secure Scuttlebot implementa.
+    
+    Mas pessoas perdem dispositivos, e esta característica é levada em conta neste trabalho. É necessário que haja uma forma de recuperar a identidade de forma segura e sem que haja perda na consistência do sistema.
+    
+    \subsection{Protocolo de registro de usuário}
+    
+        Quando uma pessoa deseja registrar-se no sistema, deve-se comunicar a uma autoridade que faça gerenciamento de usuários. No ato de registro o usuário deve informar dados básicos de identificação, como por exemplo, nome, data e local de nascimento, local de residencia, etc. Estas informações são tratadas como atributos de usuário. Também é informado uma chave pública, que faz parte de um par de chaves assimétrico gerado pelo usuário. Em um contexto de sistema autônomo, estes dados básicos e necessários são informadas ao sistema por meio de um aplicativo.
+        
+        Outra informação necessária é o cadastro de pelo menos um dispositivo de segurança. Estes dispositivos seguros são utilizados em combinação do par de chaves do usuário para identificá-lo. Um dispositivo de segurança irá realizar a criptografia de um segredo conhecido entre a autoridade e o usuário através de criptografia de curva elíptica. Na próxima subseção será discutido com mais detalhes o envolvimento de dispositivos seguros no sistema proposto neste trabalho.
+        
+        Uma conta de usuário é criada na blockchain através da chave privada do usuário. Uma conta no Ethereum dá a possibilidade de assinar transações, o que é suficiente para provar que um usuário fez uma determinada transação. A autoridade envia uma quantidade de Ether à conta do usuário para que seja possível o envio do contrato digital do usuário a blockchain.
+        
+        Os atributos de usuário são codificados em um formato JSON e adicionado no IPFS, que retorna um CID - uma hash que identifica um conteúdo. O conteúdo adicionado ao IPFS é informado a autoridade que replica a informação entre as demais autoridades. Os atributos do usuário são armazenados pelo usuário, pelas autoridades ou por qualquer usuário que acessar os atributos de um usuário. A Figura \ref{fig:fluxograma-ipfs} mostra como o processo de armazenamento de atributos no IPFS ocorre.
+        
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=15cm]{fluxograma-armazenamento-ipfs.pdf}
+            \caption{Fluxograma do armazenamento de um objeto no IPFS.}
+            \label{fig:fluxograma-ipfs}
+        \end{figure}
+        
+        O CID dos atributos do usuário é adicionado ao contrato digital do usuário, assim como alguns atributos públicos para o acesso mais rápido, como o nome do usuário e chave pública. O contrato digital do usuário funciona tanto como ferramenta de identificação mas também como cache de informações que devem ser acessadas com maior rapidez.
+        
+        Após o envio do contrato digital de usuário a blockchain, o usuário comunica a autoridade seu endereço de conta e seu contrato digital. Quando um registro é feito, este contrato digital é identificado como contrato origem. É utilizado para controlar o histórico do usuário na blockchain. 
+        
+        O procedimento de registro exige um protocolo de autenticação, para provar que as partes envolvidas são realmente o que dizem ser. O protocolo de autenticação consiste na geração de um segredo por parte da autoridade, este segredo é um conjunto de informação com tamanho de 4096 bits, gerado pseudo-aleatoriamente durante o processo de autenticação e conhecido apenas pela autoridade.
+        
+        O segredo é criptografado com a chave pública do usuário, armazenada publicamente em seu contrato digital, então o segredo criptografado é adicionado ao IPFS e o CID, que identifica esta porção de informação é enviado ao usuário, que deverá provar que possui a chave privada correspondente descriptografando a informação. Em seguida a informação descriptografada é criptografada novamente através da chave pública da autoridade, presente em seu contrato digital, então é adicionada ao IPFS e o CID referente a esta nova informação é enviada à autoridade correspondente, que deve provar possuir a chave privada corresponde a armazenada publicamente no contrato de autoridade.
+        
+        Se o segredo descriptografado for válido, ou seja, for igual ao segredo gerado no início do protocolo, a autenticação estará completa. A Figura \ref{fig:handshake-com-chave} demonstra a execução deste protocolo em formato de diagrama.
+
+        \begin{figure}[]
+            \centering
+            \includegraphics[scale=0.75]{imagens/protocolo-handshake-com-chave-privada.pdf}
+            \caption{Protocolo de autenticação com chave privada.}
+            \label{fig:handshake-com-chave}
+        \end{figure}
+        
+        O protocolo de autenticação exige que, em caso de ataque, um atacante possua um contrato digital de autoridade cujo endereço é idêntico ao da autoridade no qual o usuário deseja se reportar, o que é impossível. Endereços são únicos no Ethereum. Outra alternativa que um atacante pode tomar para se passar por autoridade, perante ao usuário, é roubar a chave privada do contrato de autoridade e também roubar a chave privada da conta no Ethereum habilitada a interagir com o contrato que representa uma autoridade.
+        
+        Devido a capacidade de um atacante poder roubar as chaves privadas utilizadas por uma autoridade, é recomendável que estas chaves sejam criptografadas com o algoritmo AES por uma chave diferente, com tamanho mínimo de 256 bits. Recomenda-se também que esta chave adicional seja informações biológicas extraídas da pessoa que detém os direitos sobre sua identificação digital, como por exemplo a impressão digital.
+        
+        As mesmas preposições de armazenamento de chave privada são recomendadas a serem adotadas por usuários, vinculando suas chaves a um armazenamento frio, criptografadas a partir de informações biológicas próprias do usuário.
+        
+        Cada contrato digital de usuário possui um mecanismo de ligação a outros contratos do mesmo usuário. Assim, caso um contrato antigo seja acessado, é possível navegar até a versão mais recente do contrato digital de usuário. A Figura \ref{fig:estrutura-enderecamento-contratos-usuario} ilustra esta estrutura.
+        
+        \begin{figure}[h]
+            \centering
+            \includegraphics[width=15cm]{imagens/estrutura-enderecos-usuario.pdf}
+            \caption{Estrutura de armazenamento de endereços nos contratos de usuários.}
+            \label{fig:estrutura-enderecamento-contratos-usuario}
+        \end{figure}
+        
+        A Figura \ref{fig:registro-contrato} mostra o fluxo do processo de registro de contrato digital de usuário perante a um contrato digital de autoridade.
+        
+        \begin{figure}[!h]
+            \centering
+            \includegraphics[width=15cm]{imagens/protocolo-registro.pdf}
+            \caption{Protocolo de registro de usuário em uma autoridade}
+            \label{fig:registro-contrato}
+        \end{figure}
+    
+    \subsection{Protocolo de troca de dados de usuário}
+    
+        O protocolo de troca de dados foi primariamente proposto para dar suporte ao mecanismo de troca de senhas de usuários. Esta necessidade ocorre a partir da natureza humana, nós esquecemos senhas ou às vezes apenas desejamos trocá-las por senhas mais seguras. Entretanto, em um universo regido por uma blockchain, algumas regras devem ser mantidas.
+        
+        Há um motivo para que sistemas como o uPort ou Blockstack não suporte a troca de senhas. Cada usuário é representado por um contrato digital nestes sistemas, mas o usuário tem pleno e total controle sobre sua conta no Ethereum, podendo inclusive realizar operações de envio e recebimento de tokens, assim como a criação de outros contratos. Na solução proposta, o conceito de endereços de carteiras é transparente ao usuário, portanto um usuário nunca irá lidar diretamente com as burocracias de operar com endereços na blockchain, este trabalho é encarregado pela API proposta neste trabalho. O protocolo de troca de dados é descrito nos próximos parágrafos.
+        
+        Caso um usuário com porte da sua chave privada deseje alterar esta chave privada, ele comunica a autoridade este desejo, a autoridade gera um segredo que é uma quantidade de informação e encripta esta informação com a chave pública atual do usuário, acessível a partir de seu contrato digital e a envia ao usuário. O usuário utiliza sua chave privada atual para descriptografar o segredo, em seguida ele encripta o segredo novamente, mas com a chave pública da autoridade, que é acessível a partir do contrato digital da autoridade.
+        
+        Com o segredo criptografado com a chave pública da autoridade, o usuário envia esta quantidade de informação a autoridade que aplica sua chave privada para descriptografar o conteúdo do dado enviado pelo usuário e, então, realiza a checagem se a informação descriptografada é igual ao segredo inicialmente criado para a operação.
+        
+        Se o segredo foi corretamente enviado de volta a autoridade, esta é uma prova de que o usuário que diz ser dono de um determinado contrato, é realmente dono do contrato e está apto a submeter uma nova chave pública.
+        
+        A última participação do usuário no protocolo envolve gerar uma chave pública a partir da nova chave privada. A nova chave pública é enviada para a autoridade que cria um novo contrato baseado nas informações armazenadas no contrato de usuário anterior. Neste procedimento um novo CID do IPFS que representa os atributos do usuário é gerado, pois a chave pública é parte dos atributos do usuário. Este conjunto novo de informação alimenta no novo contrato do usuário.
+        
+        Após criar o contrato do usuário, a autoridade atualiza o contrato antigo, apontando ele para o novo contrato. Isto acontece executando o método \textbf{disableAndLinkToNew} presente no contrato antigo do usuário, este método pode apenas ser executado pela autoridade que registrou o usuário. Depois de desabilitado um contrato não pode mais realizar assinaturas, mas é necessário que siga disponível para que seja possível provar que um usuário realizou uma assinatura de um documento em um determinado momento.
+        
+        O último passo deste protocolo consiste na tarefa da autoridade em atualizar sua tabela interna de contratos, atualizando o valor da chave, que é o endereço do primeiro contrato do usuário, para o endereço do novo contrato do usuário. Um diagrama simplificado pode ser acompanhado na Figura \ref{fig:protocolo-troca-com-chave}.
+        
+        \begin{figure}
+            \centering
+            \includegraphics[width=15cm]{imagens/protocolo-troca-com-chave.pdf}
+            \caption{Protocolo de troca de dados com autenticação direta.}
+            \label{fig:protocolo-troca-com-chave}
+        \end{figure}
+        
+        Armazenar estes dados é necessário porque é preciso manter um histórico de mudanças em contratos de uma mesma pessoa, mas também é preciso que o acesso às ultimas informações de um usuário seja realizado em tempo constante.
+        
+        Existe uma falha pertinente neste protocolo. Como uma pessoa pode recuperar um contrato se esta pessoa perdeu sua chave privada? A versão apresentada nesta subseção não consegue lidar de forma segura com o problema de garantia de que uma pessoa é realmente dona de um contrato digital, então uma nova camada de segurança é necessária.
+        
+    \subsection{Protocolo de troca de dados de usuário sem chave privada}
+    
+        Nesta seção é mostrado a importância de usuários cadastrarem dispositivos de segurança. Caso algum usuário malicioso deseje se passar por alguma pessoa, este usuário malicioso precisa ter em mãos a chave privada desta pessoa ou um dispositivo de segurança da pessoa.
+        
+        Descobrir chaves privadas é uma tarefa, no pior das hipóteses, árdua. A menos de o usuário malicioso desenvolva um algoritmo de fatoração de números primos em tempo razoável, a tarefa de encontrar a chave privada de um usuário é muito difícil. Portanto, um usuário malicioso precisará estar com a posse de um dispositivo de segurança que o usuário cadastrou e este dispositivo deve estar ativo.
+        
+        Quando uma pessoa perde um dispositivo de segurança, ela deve desativar a validade da chave pública deste dispositivo, a pessoa só poderá realizar esta operação com posse de sua chave privada. Além do que já foi posto, um dispositivo de segurança é tratado como um smartphone neste trabalho. O smartphone deverá ter instalado um aplicativo capaz de se comunicar com a blockchain, um usuário só conseguirá acessar o aplicativo após passar pela barreira de segurança imposta pelo sistema operacional do smartphone.
+        
+        A partir das premissas postas anteriormente, o protocolo de troca de dados de usuário sem chave privada é semelhante ao protocolo de troca de dados de usuário com chave privada. Neste caso é levado em conta que a pessoa perdeu sua chave privada. Para gerar uma nova chave é preciso comprovar a autenticidade da pessoa e esta comprovação utiliza os dispositivos de segurança.
+        
+        Quando um pedido de troca de senha é feito, sem a possibilidade de o usuário assinar digitalmente as transações, o protocolo deve acionar os dispositivos seguros, solicitando que algum destes dispositivos realize a assinatura do pedido de troca de chave pública. Caso o usuário tenha múltiplos dispositivos cadastrados, o primeiro dispositivo que responder a requisição da autoridade será utilizado ao longo do procedimento.
+        
+        O dispositivo é então conectado ao contrato do usuário e a autoridade gera um segredo aleatório e criptografa-o utilizando a chave pública do dispositivo de segurança, então envia o segredo criptografado ao dispositivo de segurança. O restante do procedimento é semelhante ao protocolo de troca de dados de usuário com chave privada, o dispositivo de segurança descriptografa o segredo com a sua chave privada armazenada localmente e criptografada pelo código de acesso do aplicativo. Então o dispositivo encripta a informação descriptografada utilizando a chave pública da autoridade e envia o dado criptografado a autoridade, que descriptografa e checa se o segredo é o mesmo gerado no primeiro passo.
+        
+        Neste momento o dispositivo de segurança é apto a solicitar que a chave pública do usuário seja trocada, o usuário gera uma nova chave pública e submete através do dispositivo de segurança. A nova chave pública do usuário é encriptada pela chave privada do dispositivo e enviada a autoridade, que descriptografa a mensagem enviada pelo dispositivo e dá inicio ao processo de criação de um novo contrato do usuário. As informações antigas são copiadas para o novo contrato, este contrato é enviado a blockchain, então o contrato anterior é ligado ao novo e desativado. Por fim a autoridade registra o endereço na blockchain do novo contrato digital do usuário na sua tabela de contratos digitais de usuário, utilizando como chave de indexação o endereço do primeiro contrato do usuário.
+        
+        Neste momento o usuário possui uma nova chave privada e a chave privada antiga não pode mais ser utilizada para assinar dados.
+        
+        Toda informação pública do usuário é codificada e armazenada no IPFS. A proposta deste trabalho trata apenas de dados públicos, ou seja, dados adicionados ao IPFS são de acesso público, qualquer pessoa conectada a rede do IPFS é capaz de replicar os atributos do usuário, além disto, o usuário armazena todas as versões de seus atributos nos seus dispositivos de segurança.
+        
+        A desativação de um dispositivo de segurança pode ser feita a partir de outro dispositivo de segurança ou através da chave privada do usuário. A desativação consiste na remoção da chave pública do dispositivo, do contrato do usuário. Esta remoção exige que um novo procedimento de troca de dados de usuário seja executado, pois um contrato de usuário possui somente duas informações mutáveis apenas pela autoridade que registrou o usuário: o valor lógico de habilitação do contrato e o endereço que identifica o próximo contrato no histórico de contratos digitais cujo o usuário é dono.
+        
+        Qualquer assinatura de documentos é armazenada no IPFS, apenas a hash do conteúdo que representa a assinatura é armazenado na blockchain. Esta é a única operação que um usuário pode executar sobre seu contrato. A operação de assinatura de documento envolve uma mutação no contrato, a hash do documento assinado é adicionada a lista de assinaturas feitas pelo usuário. Dispositivos de segurança não realizam assinaturas digitais, são ferramentas apenas utilizadas para troca de chave pública.
+        
+        O sistema proposto não dá suporte a recuperação de chaves, sempre que um usuário ter a necessidade de utilizar uma nova chave, um procedimento de troca de dados de usuário é realizado.
+        
+        Vale ressaltar que este protocolo não passou ainda por uma prova formal matemática que ateste que estes protocolos são viáveis criptograficamente. São protocolos que vivem no universo das propostas, embora a prova de conceito desenvolvida, que será discutida no próximo capítulo mostre que, pelo menos, há um vislumbre de que este sistema seja possível.
+        
+        
+\chapter{Tecnologias utilizadas no desenvolvimento}\label{chap:desenvolvimento}
+    
+    Os protocolos propostos na seção anterior mostram em nível arquitetônico o funcionamento do sistema proposto. Nesta seção serão apresentadas as ferramentas utilizadas para o desenvolvimento do protótipo, bem como uma explicação sobre a API implementada cujo código fonte é aberto e está disponibilizado no repositório deste trabalho\footnote{https://github.com/gustavofsantos/tcc-core}.
+    
+    Alguns dos resultados deste trabalho constam em uma prova de conceito que implementa parte dos protocolos introduzidos na seção anterior. A prova de conceito consta em dois contratos digitais - um que representa usuários em geral e um que representa autoridades. Consta também de uma API desenvolvida em JavaScript e NodeJS e um conjunto de testes unitários. Neste capítulo serão discutidas as tecnologias utilizadas na implementação do protótipo, assim como o funcionamento prático do sistema proposto.
+    
+    Os contratos digitais foram desenvolvidos utilizando a linguagem de programação Solidity, que é compilada para um código que é interpretado pela EVM. O compilador utilizado para compilar os contratos digitais é o \textit{solc}, na versão 0.4.24. 
+    
+    Existem diversas formas de compilar contratos digitais escritos em Solidity. Uma delas é a partir de uma biblioteca de funções que o compilador solc expõe para a aplicação, outra forma é utilizar um compilador através de uma interface por linha de comando. Neste trabalho os contratos foram compilados por linha de comando e foi produzido dois arquivos de saída para cada contrato digital. Um dos arquivos é uma representação em binário do contrato digital, que é interpretado pela EVM. Outra saída do compilador é um arquivo que representa uma interface entre a aplicação (ABI - \textit{Application Binary Interface}) e o código binário que é executado a nível de hardware na EVM.
+    
+    Foi utilizado a biblioteca \textit{web3.js} para realizar a comunicação entre a aplicação e a blockchain. Web3.js é uma biblioteca escrita em JavaScript que implementa a especificação genérica da API do Ethereum via chamadas RPC, estas chamadas são direcionadas a um processo que executa um nó completo do Ethereum. Ao longo do restante do capítulo, todas informações de formato e tipo de argumentos é referente aos tipos e formatos presentes no universo do NodeJS e JavaScript.
+    
+    \section{Biblioteca}
+    
+    Um dos resultados deste trabalho é o desenvolvimento de uma API - \textit{Application Programming Interface} para o acesso aos contratos de usuário e autoridade. A API compreende os arquivos \textbf{lib\_user.js} e \textbf{lib\_authority.js}, ambos presentes no repositório de códigos deste trabalho. As bibliotecas de funções de usuário e autoridade compreendem os blocos de construção básico para aplicações que utilizam os mecanismos propostos neste trabalho.
+    
+    As bibliotecas de usuário e autoridade simplificam a operação direta com contratos. Instâncias genéticas de contratos digitais não podem invocar os métodos originais implementados nos contratos digitais, eles precisam ser construídos na blockchain. Uma instância genérica de contrato digital expõe os métodos \textbf{deploy} e \textbf{send}.
+    
+    O método deploy cria um pacote que será utilizado para enviar um contrato a blockchain. O método send faz a comunicação entre o processo que executa um nó do Ethereum e a aplicação. O retorno do método send é uma \textit{Promise} que, quando resolvida, retorna uma instância de contrato construído na blockchain. Dentre os métodos expostos nesta instância de contrato digital, estão os métodos implementados no contrato digital, acessíveis por seus nomes originais.
+    
+    As bibliotecas implementadas promovem facilidades na interação com os métodos presentes nos contratos na blockchain. Todos os métodos expostos nas bibliotecas implementadas são assíncronos, ou seja, retornam Promises que precisam ser resolvidas antes de acessar o resultado da execução.
+    
+    Por motivos de otimização de custo de operação na blockchain, apenas os métodos \textit{getters} retornam resultados. Portanto, um método que foi bem executado não acionará exceções, já um método que não for completamente executado na blockchain irá gerar uma exceção, que será propagada através da execução do método na instância do contrato digital.
+    
+    \section{Contratos Digitais}
+    
+    Os contratos digitais foram implementados em Solidity e compilados através da interface de linha de comando do compilador solc. Solidity é a linguagem de programação de contratos digitais mais estável no momento em que este texto é escrito, é baseada na sintaxe introduzida pela linguagem C, no qual usa chaves para delimitar o escopo de métodos.
+    
+    Existem outras linguagens que podem ser utilizadas para o desenvolvimento de contratos digitais no Ethereum que merecem ser mencionadas aqui pois podem, num futuro próximo, se tornar padrão na comunidade de desenvolvedores que hoje adora Solidity como linguagem de desenvolvimento. Estas novas linguagens são Vyper e LLL.
+    
+    Vyper é uma linguagem que se apoia muito na sintaxe da linguagem Python, mas que exige que tipos sejam explicitados na declaração de variáveis. Ainda está em estado experimental, mas a similaridade com Python pode fazer com que esta linguagem se torne um padrão no desenvolvimento de contratos digitais. Já LLL é uma linguagem que usa a sintaxe introduzida pela linguagem Lisp, mas utiliza os mnemônicos do Ethereum em sua construção sintática, o que torna a linguagem mais próxima ao código que é executado pela EVM.
+    
+    No desenvolvimento dos contratos digitais foi buscado o consumo mínimo de Gas por transação, para tal, foram implementados métodos \textit{getter} que quando executados, retornam informação da blockchain. Demais métodos não retornam dados após a sua execução, mas são protegidos por \textit{modifiers}, que neste trabalho serão traduzidos por métodos protetores. Métodos protetores protegem a execução de métodos presentes no contrato digital baseado em condições.
+    
+    Quando uma condição é quebrada em um método protegido por métodos protetores, a execução é revertida ao estado inicial e uma exceção é disparada. Proteger a execução de métodos por métodos protetores é uma boa pratica de desenvolvimento, segundo a documentação da linguagem Solidity.
+    
+    Nos contratos digitais implementados não são utilizados estruturas de listas, pois armazenamento de dados em lista na blockchain é caro, pois é necessário manter um mecanismo de iteração sobre estes dados. Portanto os contratos digitais armazenam informações em variáveis primitivas e em mapas.
+    
+    Mapa é uma estrutura de dados de dicionário, que armazena chaves e valores. Estas estruturas de dados não oferecem o mecanismo de iteração. A iteração entre contratos promovida na definição dos protocolos no Capítulo \ref{chap:modelagem} é alcançada por causa da arquitetura imposta neste sistema.
+
+    Em cada modificação do estado interno de um contrato, uma transação é gerada na blockchain e o novo estado só estará acessível após processado pelo algoritmo minerador do Ethereum. Este é um dos motivos pela movimentação da comunidade que desenvolve o Ethereum, em propor novas metodologias para lidar com o processamento de contratos digitais. Existem propostas que já estão em etapa de implementação, como o protocolo CASPER e o protocolo GHOST. Também existem pesquisas em sistemas de identificação, uma introdução do zCash foi o protocolo zk-SNARKS - \textit{Zero-Knowledge Succinct Non-Interactive Argument of Knowledge}, que pretende lidar com a identificação de transações na blockchain com maior eficiência. O protocolo zk-SNARKS está em processo de adoção no Ethereum através de uma variante conhecida como zk-STARKS - \textit{Zero-Knowledge Scalable Transparent ARguments of Knowledge}.
+    
+    O Anexo \ref{anexo:contrato-autoridade} contém a implementação do contrato de autoridade simplificado que compõe o protótipo desenvolvido. No Anexo \ref{anexo:contrato-usuario} é possível encontrar a implementação do contrato digital que representa um usuário. Além dos contratos disponíveis em anexo, os demais contratos digitais implementados ao longo do desenvolvimento deste trabalho, podem ser explorados a partir do endereço https://github.com/gustavofsantos/tcc-core/tree/master/src/ethereum/contracts.
+    
+    \section{Testes}
+    
+    O protótipo desenvolvido neste trabalho foi submetido a uma série de testes unitários, estes testes podem ser acessados no repositório público do protótipo \footnote{https://github.com/gustavofsantos/tcc-core/tree/master/test}. Para os testes foi utilizada a biblioteca Mocha para testes unitários e o Ganache para a simulação de uma blockchain.
+    
+    O Ganache, que pode ser visto na Figura \ref{fig:screenshot-ganache}, faz parte da suíte Truffle, para o desenvolvimento de aplicações na blockchain do Ethereum. O framework Ganache possiblita a simulação de uma blockchain controlada para execução de testes e inspeção da execução de contratos digitais.
+    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=15cm]{imagens/ganache.png}
+        \caption{Captura de tela da interface de usuário do Ganache.}
+        \label{fig:screenshot-ganache}
+    \end{figure}
+    
+    É possível controlar o número de contas no Ethereum que são criadas automaticamente quando a aplicação é iniciada. Também é possível controlar o mecanismo de mineração, o valor em Wei para a execução de transações - GASPRICE, o valor limite para o consumo de Wei em uma transação - GASLIMIT, a frase mnemônica utilizada para criptografar a carteira digital que contém os endereços criados, entre outras configurações. É possível expor a chave privada de cada conta através do ícone na extrema direita de cada célula que representa uma conta. A Figura \ref{fig:screenshot-senha-ganache} ilustra a exploração da chave privada.
+    
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=15cm]{imagens/ganache-senha.png}
+        \caption{Captura de tela que mostra a chave privada de uma conta no Ganache.}
+        \label{fig:screenshot-senha-ganache}
+    \end{figure}
+    
+    A partir da interface de usuário do Ganache é possível explorar os blocos que compõe a blockchain, verificar as transações que ocorreram com sucesso e é possível inspecionar o registro de operações na blockchain. O Ganache suporta chamadas RPC via uma API exposta a aplicações. Por padrão, o identificador de rede criado pelo Ganache é o número 5777 e um computador que está rodando o Ganache não se conecta a outro computador através do Ganache, este é um framework para testes e ele é executado exclusivamente no computador hospedeiro.
+    
+    Todas as funcionalidades postadas são acessíveis via a biblioteca disponível em JavaScript que executa no framework NodeJS, chamado Ganache-CLI. Quando um objeto do tipo Web3 é instanciado, é necessário passar um provedor que será utilizado para a comunicação com a blockchain, o provedor utilizado é o encontrado no Ganache-CLI.
+    
 
 %=====================================================%
 
-% \chapter{Resultados}
+\chapter{Resultados obtidos}\label{chap:resultados}
+
+    Neste trabalho são considerados como resultados a análise bibliográfica em português da plataforma Ethereum, bem como os tópicos mais atuais discutidos na comunidade de desenvolvimento de aplicações descentralizadas; a análise em português do IPFS, no qual engloba principalmente os mecanismos por trás da indexação de informação baseado no conteúdo; uma proposta de protocolo de identificação de pessoas via blockchain com capacidade de recuperação de chaves e alteração de atributos com armazenamento e processamento de dados fora da blockchain e, por fim, uma API que implementa uma versão simplificada do protocolo proposto. Nesta seção serão discutidos detalhes sobre a implementação da prova de conceito e o custo de operações na blockchain.
+    
+    Os contratos digitais de usuário e autoridade implementados neste trabalho não levam em conta a presença de dispositivos seguros, que é uma característica fundamental presente nos protocolos propostos. Embora tenha sido mencionado na seção anterior uma forma de comunicação via blockchain através do protocolo Whisper, não foi implementada a comunicação entre autoridades e usuários, que é necessária no processo de autenticação.
+    
+    A estabilidade dos códigos implementados neste trabalho foi encarada como prioridade e, a seguir será listado os métodos e a descrição de cada método implementado no contrato de Usuário.
+    
+    \begin{itemize}
+        \item \textbf{construtor}: Método que é executado para construir o contrato digital na blockchain. O endereço no Ethereum provido da quantia em Wei necessária para construir este contrato na blockchain, que executar a transação será identificado como dono do contrato de usuário. Na execução do método construtor, o contrato é habilitado a realizar assinatura de dados.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{userCID}: CID que representa os atributos do usuário no IPFS, estes atributos podem estar criptografados ou não. O conteúdo representado por este CID é inerente para o sistema.
+                \item \textbf{userPublicKey}: Chave pública gerada pelo algoritmo de criptografia de curva elíptica.
+                \item \textbf{userOriginalContract}: Endereço do primeiro contrato digital utilizado por este usuário. Caso este contrato seja o primeiro, o valor é o endereço zero.
+                \item \textbf{userLatestContract}: Endereço do último contrato digital utilizado por este usuário. Caso este contrato seja o primeiro, o valor é o endereço zero.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{registerToAuthority}: Método que registra no contrato do usuário, o endereço de uma autoridade confiável.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{authorityAddress}: Endereço de conta no Ethereum que representa o usuário que é dono do contrato de autoridade no qual o usuário confia.
+            \end{itemize}
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyUser}: Protetor que protege a execução deste método apenas pelo usuário que o detém.
+                \item \textbf{onlyEnabled}: Protetor que protege a execução deste método apenas se o contrato digital estiver habilitado.
+                \item \textbf{onlyIfNotRegisteredAt}: Protetor que protege a execução deste método apenas se a autoridade ainda não tiver sido registrada.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{unregisterFromAuthority}: Remove um endereço da tabela de autoridades de confiança, armazenada pelo contrato digital do usuário.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{authorityAddress}: Endereço da autoridade confiável já registrada pelo usuário.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyUser}: Protetor que protege a execução deste método apenas pelo usuário que o detém.
+                \item \textbf{onlyEnabled}: Protetor que protege a execução deste método apenas se o contrato digital estiver habilitado.
+            \end{itemize}
+        \end{itemize}
+            
+        \item \textbf{isRegisteredByAuthority}: Método que verifica se este usuário possui a autoridade confiável registrada em seu contrato.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{authority}: Endereço de autoridade que será utilizado para a verificação quanto ao registro.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{setSecureDevicePublicKey}: Método que muda o estado interno do contrato digital do usuário, no qual registra uma chave pública referente a um dispositivo de segurança.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{devicePublicKey}: Chave pública gerada pelo dispositivo confiável.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyUser}: Protetor que protege a execução deste método apenas pelo usuário que o detém.
+                \item \textbf{onlyEnabled}: Protetor que protege a execução deste método apenas se o contrato digital estiver habilitado.
+                \item \textbf{onlyDeviceNotSetted}: Protetor que protege a execução deste método apenas se o dispositivo não for registrado pelo usuário.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{disableSecureDevice}: Método que desabilita um dispositivo seguro registrado no contrato digital do usuário.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{devicePublicKey}: Chave pública referente ao dispositivo, registrada no contrato digital do usuário.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyUser}: Protetor que protege a execução deste método apenas pelo usuário que o detém.
+                \item \textbf{onlyEnabled}: Protetor que protege a execução deste método apenas se o contrato digital estiver habilitado.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{disableAndLinkToNew}: Desabilita o contrato digital atual do usuário e configura o endereço para o contrato sucessor. Este método modifica o estado interno do contrato digital, mas esta modificação só pode ser efetuada por uma autoridade credenciada pelo usuário, após um pedido explícito do usuário. Um pedido explícito é uma transação efetuada 
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{newUserContract}: Endereço do novo contrato digital do usuário, registrado pela autoridade confiável que executou a mudança de contrato.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyAuthority}: Protetor que protege a execução deste método apenas por uma autoridade de confiança do usuário.
+                
+                \item \textbf{onlyEnabled}: Protetor que protege a execução deste método apenas se o contrato digital estiver habilitado.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{signData}: Registra a assinatura digital de uma quantidade de dados pela chave privada do usuário.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{cidDataSigned}: CID que representa os dados assinados pela chave privada do usuário dono do contrato.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyUser}: Protetor que protege a execução deste método apenas pelo usuário que o detém.
+                \item \textbf{onlyEnabled}: Protetor que protege a execução deste método apenas se o contrato digital estiver habilitado.
+                \item \textbf{onlyNotSigned}: Protetor que protege a execução para que não seja salvo no contrato um CID já registrado.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{isSigned}: Método que retorna verdadeiro se uma porção de dados for assinada pelo contrato do usuário.
+        \begin{itemize}
+            \item Parametros
+            \begin{itemize}
+                \item \textbf{cidDataSigned}: CID que representa os dados assinados pela chave privada do usuário dono do contrato.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{getPublicKey}: Método que retorna a chave pública do usuário registrada no contrato digital.
+        
+        \item \textbf{getCID}: Método que retorna o CID que representa atributos do usuário, armazenado no contrato digital.
+        
+        \item \textbf{getNextContract}: Método que retorna o endereço do contrato digital que sucede o contrato atual.
+
+        \item \textbf{getLastContract}: Método que retorna o endereço do contrato digital antecessor ao contrato atual.
+        
+        \item \textbf{getOriginalContract}: Método que retorna o endereço do primeiro contrato registrado pelo usuário.
+        
+        \item \textbf{getOwner}: Método que retorna o endereço de conta no Ethereum cujo dono é o usuário dono do contrato digital.
+    \end{itemize}
+    
+    Contratos de autoridade são alusões a entidades confiáveis, no caso de entidades públicas, contratos de autoridade se comportam como cartórios. Por este motivo, a estrutura de um contrato de autoridade é simples e possui apenas dois métodos que alteram seu estado interno. A seguir consta a lista de métodos e seus protetores implementados no contrato digital de autoridade. 
+    
+    \begin{itemize}
+        \item \textbf{constructor}: Método utilizado para construir um contrato de autoridade na blockchain. O endereço que enviar o contrato de autoridade a blockchain será uma autoridade e terá seu endereço de conta no Ethereum vinculado a esta autoridade. Qualquer pessoa pode enviar um contrato de autoridade à blockchain.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{authorityCID}: CID que representa atributos da autoridade, armazenados no IPFS.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{registerUser}: Método que registra um endereço de contrato digital na tabela de usuários registrados armazenada no contrato de autoridade. O endereço passado como parâmetro será utilizado para criar uma entrada na tabela de endereços que armazena a versão original do contrato de usuário como chave e, neste caso, armazena o mesmo endereço como valor.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{userContractAddress}: Endereço do contrato digital de usuário a ser registrado.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyAuthority}: Protetor que protege a execução deste método apenas pelo dono do contrato de autoridade.
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{changeUserLatestContract}: Método que atualiza a tabela de contratos de usuário armazenada no contrato de autoridade, para a versão mais recente do contrato de usuário.
+        \begin{itemize}
+            \item Parâmetros
+            \begin{itemize}
+                \item \textbf{originalUserContract}: Endereço do primeiro contrato digital registrado pelo usuário.
+                \item \textbf{latestUserContract}: Endereço do novo contrato digital que representa o usuário na blockchain.
+            \end{itemize}
+            
+            \item Protetores
+            \begin{itemize}
+                \item \textbf{onlyAuthority}: Protetor que protege a execução deste método apenas pelo dono do contrato de autoridade.
+                \item \textbf{onlyDifferentContract}: Protetor que protege a alteração do estado interno do contrato de autoridade caso os endereços passados como parâmetro sejam iguais (caso de registro).
+            \end{itemize}
+        \end{itemize}
+        
+        \item \textbf{getOwner}: Método que retorna o endereço de conta no Ethereum cujo dono é o usuário dono do contrato digital.
+    \end{itemize}
+    
+    Foi realizada uma bateria de testes unitários sobre os métodos dos contratos digitais de Usuário e Autoridade, que contabilizaram o processamento das operações. A Tabela \ref{tab:custo-op-usuario} mostra resultados do custo de cada execução de método na blockchain no contrato digital de usuário, já a Tabela \ref{tab:custo-op-autoridade} mostra o custo da execução de cada método no contrato digital de autoridade.
+    
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{l | r | r}
+        \multicolumn{1}{c|}{Método} & \multicolumn{1}{c|}{Custo} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Custo\\ (dólar)\end{tabular}} \\ \hline
+            construtor & 1896137 & \$0.77647 \\ 
+            registerToAuthority & 44611 & \$0.01827 \\
+            unregisterFromAuthority & -- & -- \\
+            isRegisteredByAuthority & 23375 & \$0.00957 \\
+            signData & 47373 & \$0.01940 \\ 
+            isSigned & 25961 & \$0.01063 \\
+            getPublicKey & 25547 & \$0.01045 \\ 
+            getCID & 23119 & \$0.00946 \\ 
+            getOwner & 21942 & \$0.00891 \\ 
+            getOriginalContract & 21920 & \$0.00897 \\ 
+            getNextContract & 21964 & \$0.00899 \\
+            getLastContract & 21986 & \$0.00901 \\
+            disableAndLinkToNew & 48840 & \$0.02001 \\ 
+        \end{tabular}
+        \caption{Custo por operações no contrato digital de usuários.}
+        \label{tab:custo-op-usuario}
+    \end{table}
+    
+    Os valores de custo encontrados na Tabela \ref{tab:custo-op-usuario} e na Tabela \ref{tab:custo-op-autoridade} são medidos em Wei e são constantes para qualquer chamada efetuada na blockchain, pois o tamanho dos dados operados é constante. O valor correspondente em dólar mostrado nas duas tabelas foi obtido através do site Eth Gas Station\footnote{https://ethgasstation.info/calculatorTxV.php} com o GASPRICE configurado em 2,1GWei.
+    
+    \begin{table}[h]
+        \centering
+        \begin{tabular}{l | r | r}
+        \multicolumn{1}{c|}{Método} & \multicolumn{1}{c|}{Custo} & \multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Custo\\ (dólar)\end{tabular}} \\ \hline
+            construtor & 620213 & \$0.25397 \\ 
+            registerUser & 44962 &  \$0.01841 \\
+            changeUserLatestContract & 31507 & \$0.01291 \\
+        \end{tabular}
+        \caption{Custo por operações no contrato digital de autoridades.}
+        \label{tab:custo-op-autoridade}
+    \end{table}
+    
+    Os valores de custos são medidos em cima do custo total para realizar a transação, o que engloba tanto o custo de cada bytecode executado pela EVM referente a chamada do método do contrato, quanto o custo para a execução, validação e escrita da transação no livro de registro.
+    
+    Todos os arquivos que representam os contratos digitais, programas de testes e as implementações em JavaScript para operar os contratos digitais na blockchain podem ser encontrados no repositório deste trabalho no GitHub através do endereço https://github.com/gustavofsantos/tcc-core. Podem ser encontrados também no repositório as versões anteriores dos contratos digitais, referentes a cada abordagem tentada neste trabalho. Foi escolhido manter os arquivos intactos no repositório para que o leitor possa analisar as diferenças entre eles.  
 
 %=====================================================%
 
-% \chapter{Conclusão}
-
-
+\chapter{Conclusão}\label{chap:conclusao}
+    
+    Ao longo do desenvolvimento deste trabalho, algumas barreiras encontradas merecem destaque. A primeira é a pouca ou, quase inexistência de trabalhos sobre as tecnologias utilizadas aqui, em português. Através de uma análise sistemática através do Parsifal\footnote{Plataforma que auxilia pesquisadores para a realização de análises sistemáticas de artigos. https://parsif.al/}, foi constatado que a maioria absoluta de trabalhos sobre blockchain e sistemas descentralizados de indexação via conteúdo, como o IPFS.
+    
+    Outro tópico importante é o contínuo desenvolvimento das tecnologias utilizadas neste trabalho. O compilador da linguagem de programação Solidity, utilizada na implementação dos contratos digitais evoluiu, desde o início da pesquisa e desenvolvimento deste trabalho, da versão 0.4.20, disponibilizada em fevereiro de 2018, até a versão 0.4.25, que é a mais recente, disponibilizada no dia 13 de setembro de 2018. Cada nova atualização no compilador introduz novas características a linguagem, assim como remove outras. Com o intuito de manter os contratos digitais atualizados com o fechamento deste trabalho, foi necessária, por mais de uma vez, a reescrita de métodos.
+    
+    A segunda barreira encontrada foi a documentação das ferramentas. O caráter de esse tipo de tecnologia estar evoluindo muito rapidamente exige que as equipes responsáveis disponibilizem a documentação mais atual, o que não aconteceu como esperado. Algumas vezes a documentação não existia, algumas vezes existia mas era referente a outra versão da ferramenta. Felizmente este problema foi corrigido e, no momento em que este texto é redigido, a documentação das bibliotecas web3.js, ganache-cli.js e ipfs.js, utilizadas ostensivamente no desenvolvimento do protótipo, está atualizada e completa.
+    
+    Ao longo do desenvolvimento dos protocolos propostos neste trabalho, o direcionamento para a utilização de determinadas tecnologias para dar suporte a características necessárias mudou. A primeira abordagem escolhida foi a definição dos protocolos com base em uma rede que executa Prova de Autoridade - PoA, como sistema de consenso distribuído. A falta de documentação na época e os problemas técnicos para configuração de nós do Ethereum a partir do software Parity, que implementa o sistema de consenso PoA, foram motivos primordiais para que a proposta de um conjunto de protocolos que funcionam sobre uma rede que executa Prova de Autoridade, fosse excluída. Embora esta proposta tenha sido excluída, é importante mencionar que existe um leque de possibilidades a ser explorado neste tipo de sistema de consenso, estas possibilidades seriam melhor exploradas em uma continuação deste trabalho.
+    
+    No desenvolvimento do protótipo foi o Remix, que é uma IDE online para desenvolvimento de contratos digitais escritos em Solidity. O Remix é um software oficial da Ethereum Foundation e possui uma máquina virtual que simula a EVM. Também é possível conectar o Remix a nós reais do Ethereum, como um nó particular, por exemplo. O Remix foi utilizado para o desenvolvimento das versões de contratos digitais utilizados em outras abordagens. Uma destas abordagens consistia em utilizar contratos de Autoridade e Usuário onde, os próprios contratos de autoridade criavam e enviavam a blockchain os contratos de usuário. Através de testes manuais o sistema funcionou corretamente, entretanto quando submetido a testes unitários através do web3.js e ganache-cli.js o sistema falhou. Isto ocorreu pois a máquina virtual que é implementada pelo Remix funciona um pouco diferente da EVM real. Esta diferença de funcionamento foi conhecida durante o desenvolvimento do protótipo, pois a documentação do Remix não menciona detalhes de como a máquina virtual embarcada funciona.
+    
+    Contratos criados e enviados a máquina virtual embarcada no Remix, a partir de outros contratos, produzem endereços que são acessíveis a partir de qualquer outro endereço na blockchain. Entretanto o ganache-cli implementa uma máquina virtual que, quando contratos criam contratos, o endereço do contrato criado é acessível apenas pelo contrato que o criou, pois este endereço é limitado ao bloco onde o contrato foi criado. Esta particularidade invalidou o teste unitário desta proposta e ela precisou ser descartada.
+    
+    A proposta final neste trabalho traz consigo uma forma diferente de desenvolvimento através de um sistema hibrido. Uma camada de criptografia é necessária para garantir a segurança de operações e as operações criptográficas não podem ser realizadas na blockchain, o custo seria muito alto.
+    
+    Segundo os resultados apresentados no Capítulo \ref{chap:resultados}, o custo de armazenamento de informação na blockchain é muito alto, comparado aos padrões atuais. O Google Cloud informa que o custo por gigabyte armazenado, embora seja variado dependendo do pacote escolhido, gira em torno de centavos de dólar \footnote{https://cloud.google.com/storage/pricing}, que é muito mais barato que o armazenamento de informação na blockchain.
+    
+    Blockchain é um mecanismo que desempenha um péssimo papel como unidade de processamento ou unidade de armazenamento. Embora exista um sistema de troca de mensagens no Ethereum, chamado de Whisper, não explorado neste trabalho, estudos sobre o desempenho da blockchain para realizar a comunicação por troca de mensagens são necessários.
+    
+    A partir da necessidade do uso de um armazenamento externo, o sistema de indexação que o IPFS fornece encaixa-se perfeitamente no requisito deste trabalho. Atributos de usuário são armazenados no IPFS, reduzindo a necessidade de armazenamento de somente 256 bits na blockchain. Segundo os resultados obtidos, quanto menor a quantidade de informação a ser armazenada na blockchain, mais barato é o custo por transação ao manter o GASPRICE constante.
+    
+    Blockchains em geral oferecem uma capacidade de segurança e resiliência que sistemas centralizados não podem entregar, a menos que pessoas tenham confiança sem precedentes em empresas privadas.
+    
+    O registro público de informações que a blockchain oferece em conjunto com a capacidade do Ethereum em realizar computação na blockchain foram fundamentais para a realização deste trabalho. Foi possível propor, implementar e testar uma forma de identificação de pessoas baseado em atributos públicos acessíveis via chamadas RPC.
+    
+    O diferencial deste trabalho com soluções já propostas, como uPort e Blockstack está na forma em que um sistema descentralizado pode ter seu funcionamento transparente para o usuário, propiciando uma das mais fundamentais características de um cadastro: a troca de informações.
+    
+    Pessoas mudam de nome, viajam e mudam para outra cidade, trocam de parceiros, trocam chaves privadas - o que implica em trocar as chaves públicas também e, o sistema proposto, cujo protótipo foi testado unitariamente, mostra que é possível este tipo de operação com base na blockchain.
+    
+    Tanto o uPort quando o Blockstack oferecem soluções de identificação de pessoas com base em endereços na blockchain. Esta forma de identificação causa um porém. Não é possível alterar a chave privada. Uma nova chave privada gera um novo endereço e um novo endereço gera um novo perfil. 
+    
+    Na proposta apresentada neste trabalho, perfis de usuários são atrelados a contratos de usuário, que são atrelados a endereços. Porém há um terceiro elemento: as autoridades. Autoridades são contratos controlados por entidades confiáveis. A adição do terceiro elemento permite que troca de informações ocorra com segurança e possibilita o acompanhamento do histórico de uma pessoa ao longo dos diferentes contratos digitais que a representam. Embora uma pessoa tenha utilizado uma chave privada em um determinado momento e, agora utilize uma nova chave privada, é possível provar que esta mesma pessoa assinou documentos e concordou com transações no passado, embora estas transações tenham ocorrido a partir de outro endereço de contrato digital de usuário.
+    
+    O sistema proposto pode ser aplicado em diferentes frentes. Governos podem efetuar a identificação de cidadãos via blockchain. Cada cidadão estoniano possui um cartão conhecido como Smart ID, que carrega informações de identificação de uma pessoa e substitui todos os documentos de identificação. Os protocolos propostos podem funcionar como base para a implementação de sistemas de identificação descentralizados baseado em blockchain. Neste caso, o custo de efetuar algum procedimento público, como o registro de uma união entre duas pessoas pode ser reduzido ao custo do processamento de uma transação na blockchain.
+    
+    Embora existam aplicações diferentes para os protocolos apresentados neste trabalho, este não é um trabalho que chegou a um resultado final utilizável em produção. Os protocolos propostos podem sofrer de ataques do tipo homem no meio, pois não há a validação contra este tipo de ataque em rede. Os próximos passos serão a validação completa quanto a aplicabilidade segura do sistema desenvolvido. Também é interessante o teste quanto o comportamento dos protocolos propostos em diferentes sistemas de consenso, como sistemas de prova de trabalho, prova de autoridade, prova de participação, entre outros.
 
 % Bibliografia http://liinwww.ira.uka.de/bibliography/index.html um
 % site que cataloga no formato bibtex a bibliografia em computacao
@@ -678,6 +1186,9 @@
 
 % Anexos (Opcional)
 \annex
+
+\input{anexo_contrato_autoridade.tex}
+\input{anexo_contrato_usuario.tex}
 
 % \input{anexoA.tex}\label{anexo:anexo-a}
 % \input{anexoB.tex}\label{anexo:anexo-b}
