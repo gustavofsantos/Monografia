@@ -1,14 +1,9 @@
 \chapter{Contrato de Usuário}\label{anexo:contrato-usuario}
 
 \begin{lstlisting}
-pragma solidity ^0.4.24;
+pragma solidity 0.4.24;
 
 contract User {
-
-  event AuthorityCall(address caller, address owner);
-  event UserCall(address caller, address owner);
-
-  // REQUIRED TO ALL CONTRACTS
   address owner;
   address lastContract;
   address nextContract;
@@ -24,7 +19,6 @@ contract User {
 
   // MODIFIERS
   modifier onlyUser(address caller) {
-    emit UserCall(caller, owner);
     require(
       caller == owner,
       "Only the user that own this contract can call this"
@@ -33,7 +27,6 @@ contract User {
   }
 
   modifier onlyAuthority(address caller) {
-    emit AuthorityCall(caller, owner);
     require(
       authorities[caller] == true,
       "Only the authority that has registered this contract can call this"
@@ -44,7 +37,15 @@ contract User {
   modifier onlyIfNotRegisteredAt(address authority) {
     require (
       authorities[authority] != true,
-      "This only can be called if not registered"
+      "The contract is already registered at this authority"
+    );
+    _;
+  }
+
+  modifier onlyIfRegisteredAt(address authority) {
+    require (
+      authorities[authority] == true,
+      "The contract need to be registered at this authority"
     );
     _;
   }
@@ -96,10 +97,17 @@ contract User {
   function registerToAuthority(address authorityAddress) public
     onlyUser(msg.sender)
     onlyEnabled()
-    onlyIfNotRegisteredAt(authorityAddress) returns (bool) 
+    onlyIfNotRegisteredAt(authorityAddress)
   {
     authorities[authorityAddress] = true;
-    return authorities[authorityAddress];
+  }
+
+  function unregisterFromAuthority(address authorityAddress) public
+    onlyUser(msg.sender)
+    onlyEnabled()
+    onlyIfRegisteredAt(authorityAddress)
+  {
+    authorities[authorityAddress] = false;
   }
 
   function isRegisteredByAuthority(address authority) public view returns (bool) {
@@ -108,8 +116,8 @@ contract User {
 
   function setSecureDevicePublicKey(string devicePublicKey) public 
     onlyUser(msg.sender)
-    onlyDeviceNotSetted(devicePublicKey)
     onlyEnabled()
+    onlyDeviceNotSetted(devicePublicKey)
   {
     secureDevicesPublicKeys[devicePublicKey] = true;
   }
@@ -117,29 +125,27 @@ contract User {
   function disableSecureDevice(string devicePublicKey) public 
     onlyUser(msg.sender)
     onlyEnabled()
+    onlyDeviceSetted(devicePublicKey)
   {
     secureDevicesPublicKeys[devicePublicKey] = false;
   }
 
   function disableAndLinkToNew(address newUserContract) public 
+    onlyAuthority(msg.sender)
     onlyEnabled()
-    onlyAuthority(msg.sender) returns (bool)
   {
     // disable the contract
     enable = false;
     // then set the new contract address
     nextContract = newUserContract;
-
-    return true;
   }
 
   function signData(string cidDataSigned) public
     onlyUser(msg.sender)
     onlyEnabled()
-    onlyNotSigned(cidDataSigned) returns (bool) 
+    onlyNotSigned(cidDataSigned)
   {
     signed[cidDataSigned] = true;
-    return true;
   }
 
   function isSigned(string cidDataSigned) public view returns (bool) {

@@ -1,7 +1,7 @@
 \chapter{Contrato de Autoridade}\label{anexo:contrato-autoridade}
 
 \begin{lstlisting}
-pragma solidity ^0.4.24;
+pragma solidity 0.4.24;
 
 contract Authority {
 
@@ -10,6 +10,7 @@ contract Authority {
 
   address authority;
   string  cid;
+  string  publicKey;
 
   mapping (address => address) users;
 
@@ -29,16 +30,17 @@ contract Authority {
     _;
   }
 
-  constructor (string authorityCID) public {
+  constructor (string authorityCID, string authorityPublicKey) public {
     authority = msg.sender;
     cid = authorityCID;
+    publicKey = authorityPublicKey;
   }
 
-  function registerUser(address userContractAddress) public onlyAuthority(msg.sender) returns (bool) {
+  function registerUser(address userContractAddress) public 
+    onlyAuthority(msg.sender)
+  {
     users[userContractAddress] = userContractAddress;
     emit RegisterEvent(msg.sender, userContractAddress);
-
-    return true;
   }
 
   function changeUserLatestContract(address originalUserContract, address latestUserContract) public 
@@ -53,6 +55,10 @@ contract Authority {
 
   function getOwner() public view returns (address) {
     return authority;
+  }
+
+  function getPublicKey() public view returns (string) {
+    return publicKey;
   }
 }
 \end{lstlisting}
